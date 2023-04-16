@@ -3,12 +3,19 @@ package main
 import (
 	"Gym-backend/api"
 	db "Gym-backend/db/sqlc"
+	_ "Gym-backend/docs"
 	"Gym-backend/util"
 	"database/sql"
 	_ "github.com/lib/pq"
 	"log"
 )
 
+// @title Gym-backend API
+// @version 1.0
+// @description Gym-backend API
+
+// @host localhost:8080
+// @basePath
 func main() {
 	config, err := util.LoadConfig(".")
 	if err != nil {

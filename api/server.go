@@ -4,6 +4,8 @@ import (
 	db "Gym-backend/db/sqlc"
 	"Gym-backend/util"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 )
 
@@ -44,6 +46,8 @@ func HealthCheck(c *gin.Context) {
 
 func (server *Server) setupRouter() {
 	router := gin.Default()
+
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.GET("/h", HealthCheck)
 	router.POST("/users", server.createUser)

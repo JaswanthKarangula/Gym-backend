@@ -141,6 +141,24 @@ viper for config
 go run main.go
 
 
+## Swagger 
+
+install swagger cmd
+
+
+go get -u github.com/swaggo/files
+go get -u github.com/swaggo/gin-swagger
+
+add router docs swagger
+add annotations swagger in main function
+swag init
+add annotations to controller 
+
+
+
+
+
+
 
 
 
