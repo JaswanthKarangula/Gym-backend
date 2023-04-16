@@ -28,4 +28,7 @@ sqlc:
 	sqlc generate
 mock:
 	mockgen -package mockdb -destination db/mock/store.go  github.com/JaswanthKarangula/Go-Banking/db/sqlc Store
+
+server:
+	go run main.go
 .PHONY:  postgres createdb dropdb migrateup migratedown migrateup1 migratedown1  test mock sqlc

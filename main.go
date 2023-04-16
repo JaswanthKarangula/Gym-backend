@@ -1,4 +1,4 @@
-package Gym_backend
+package main
 
 import (
 	"Gym-backend/api"

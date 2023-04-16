@@ -136,6 +136,10 @@ chmod +x wait-for.sh
 ## Gin -- 
 
 github.com/gin-gonic/gin
+viper for config
+
+go run main.go
+
 
 
 
