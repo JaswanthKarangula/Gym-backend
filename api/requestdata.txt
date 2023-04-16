@@ -1,0 +1,34 @@
+func (*Context) Param ¶
+func (c *Context) Param(key string) string
+Param returns the value of the URL param. It is a shortcut for c.Params.ByName(key)
+
+router.GET("/user/:id", func(c *gin.Context) {
+    // a GET request to /user/john
+    id := c.Param("id") // id == "/john"
+    // a GET request to /user/john/
+    id := c.Param("id") // id == "/john/"
+})
+
+
+func (*Context) Query ¶
+func (c *Context) Query(key string) (value string)
+Query returns the keyed url query value if it exists, otherwise it returns an empty string `("")`. It is shortcut for `c.Request.URL.Query().Get(key)`
+
+    GET /path?id=1234&name=Manu&value=
+	   c.Query("id") == "1234"
+	   c.Query("name") == "Manu"
+	   c.Query("value") == ""
+	   c.Query("wtf") == ""
+
+
+func (*Context) QueryMap ¶
+added in v1.3.0
+func (c *Context) QueryMap(key string) (dicts map[string]string)
+QueryMap returns a map for a given query key.
+
+
+func (*Context) ShouldBindQuery ¶
+
+
+
+

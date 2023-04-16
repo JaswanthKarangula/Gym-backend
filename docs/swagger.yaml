@@ -23,7 +23,7 @@ definitions:
       username:
         type: string
     type: object
-host: localhost:8080
+host: 0.0.0.0:8080
 info:
   contact: {}
   description: Gym-backend API
@@ -31,12 +31,29 @@ info:
   version: "1.0"
 paths:
   /users:
+    get:
+      description: Get User data from Db.
+      parameters:
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.userResponse'
+      summary: Get User From UserName
+      tags:
+      - user
     post:
       description: Create User data in Db.
       parameters:
       - description: Create user
         in: body
-        name: tags
+        name: users
         required: true
         schema:
           $ref: '#/definitions/api.createUserRequest'
@@ -49,5 +66,5 @@ paths:
             $ref: '#/definitions/api.userResponse'
       summary: Create User
       tags:
-      - tags
+      - user
 swagger: "2.0"

@@ -14,7 +14,7 @@ import (
 // @version 1.0
 // @description Gym-backend API
 
-// @host localhost:8080
+// @host 0.0.0.0:8080
 // @basePath
 func main() {
 	config, err := util.LoadConfig(".")

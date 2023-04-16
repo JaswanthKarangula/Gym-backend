@@ -50,6 +50,8 @@ func (server *Server) setupRouter() {
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.GET("/h", HealthCheck)
+
+	router.GET("/users", server.getUser)
 	router.POST("/users", server.createUser)
 
 	server.router = router

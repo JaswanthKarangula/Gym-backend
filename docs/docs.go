@@ -16,19 +16,45 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/users": {
+            "get": {
+                "description": "Get User data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get User From UserName",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.userResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create User data in Db.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tags"
+                    "user"
                 ],
                 "summary": "Create User",
                 "parameters": [
                     {
                         "description": "Create user",
-                        "name": "tags",
+                        "name": "users",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -89,7 +115,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "0.0.0.0:8080",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Gym-backend API",

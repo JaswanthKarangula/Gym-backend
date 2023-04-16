@@ -6,22 +6,48 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "0.0.0.0:8080",
     "paths": {
         "/users": {
+            "get": {
+                "description": "Get User data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get User From UserName",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.userResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create User data in Db.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tags"
+                    "user"
                 ],
                 "summary": "Create User",
                 "parameters": [
                     {
                         "description": "Create user",
-                        "name": "tags",
+                        "name": "users",
                         "in": "body",
                         "required": true,
                         "schema": {
