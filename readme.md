@@ -100,6 +100,12 @@ Mocking database to generate tests
 
 mockgen -package mockdb -destination db/mock/store.go  github.com/JaswanthKarangula/Go-Banking/db/sqlc Store
 
+## Postgres Driver 
+
+go get github.com/lib/pq
+
+
+github.com/spf13/viper
 
 
 ## Deploying
@@ -124,4 +130,14 @@ docker compose down
 
 chmod +x start.sh
 chmod +x wait-for.sh
+
+
+
+## Gin -- 
+
+github.com/gin-gonic/gin
+
+
+
+
 
