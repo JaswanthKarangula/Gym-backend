@@ -1,11 +1,10 @@
 package Gym_backend
 
 import (
+	"Gym-backend/api"
+	db "Gym-backend/db/sqlc"
+	"Gym-backend/util"
 	"database/sql"
-	"github.com/JaswanthKarangula/Gym-backend/api"
-	db "github.com/JaswanthKarangula/Gym-backend/db/sqlc"
-	_ "github.com/JaswanthKarangula/Gym-backend/docs"
-	"github.com/JaswanthKarangula/Gym-backend/util"
 	_ "github.com/lib/pq"
 	"log"
 )

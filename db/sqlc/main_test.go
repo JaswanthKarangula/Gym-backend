@@ -1,8 +1,10 @@
 package db
 
 import (
+	"Gym-backend/util"
 	"database/sql"
-	"github.com/JaswanthKarangula/Gym-backend/util"
+	"fmt"
+
 	"log"
 	"os"
 	"testing"
@@ -18,6 +20,8 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}
+	fmt.Println(config.DBDriver)
+	fmt.Println(config.DBSource)
 
 	testDB, err = sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {

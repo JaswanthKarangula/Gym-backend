@@ -38,13 +38,6 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	return server, nil
 }
 
-// HealthCheck getHealth godoc
-// @Summary      Get books array
-// @Description  Responds with the list of all books as JSON.
-// @Tags         books
-// @Produce      json
-// @Success      200
-// @Router       /h [get]
 func HealthCheck(c *gin.Context) {
 	res := map[string]interface{}{
 		"data": "Server is up and running",
@@ -58,19 +51,7 @@ func HealthCheck(c *gin.Context) {
 func (server *Server) setupRouter() {
 	router := gin.Default()
 
-	url := ginSwagger.URL("/swagger/doc.json") // The url pointing to API definition
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-
 	router.GET("/h", HealthCheck)
-	router.POST("/users", server.createUser)
-	router.POST("/users/login", server.loginUser)
-
-	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
-	authRoutes.POST("/accounts", server.createAccount)
-	authRoutes.GET("/accounts/:id", server.getAccount)
-	authRoutes.GET("/accounts", server.listAccounts)
-
-	authRoutes.POST("/transfers", server.createTransfer)
 
 	server.router = router
 }
