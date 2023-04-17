@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"time"
 )
 
@@ -27,11 +26,11 @@ VALUES
 
 type CreateClassParams struct {
 	Instructorid int64          `json:"instructorid"`
-	RegStatus    sql.NullString `json:"reg_status"`
+	RegStatus    string `json:"reg_status"`
 	StartTime    time.Time      `json:"start_time"`
 	EndTime      time.Time      `json:"end_time"`
-	Description  sql.NullString `json:"description"`
-	Classtype    sql.NullString `json:"classtype"`
+	Description  string `json:"description"`
+	Classtype    string `json:"classtype"`
 	Locationid   int64          `json:"locationid"`
 }
 

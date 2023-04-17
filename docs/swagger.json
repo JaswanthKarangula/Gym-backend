@@ -8,6 +8,183 @@
     },
     "host": "0.0.0.0:8080",
     "paths": {
+        "/checkinActivity": {
+            "get": {
+                "description": "Get CheckinActivity from  data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "checkinActivity"
+                ],
+                "summary": "Get CheckinActivity",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "userid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.checkinActivityResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create CheckinActivity data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "checkinActivity"
+                ],
+                "summary": "Create CheckinActivity",
+                "parameters": [
+                    {
+                        "description": "Create Checkin Activity",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createCheckinActivityRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.checkinActivityResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/class": {
+            "get": {
+                "description": "get Class data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "class"
+                ],
+                "summary": "get Class",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "classid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.userResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Class data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "class"
+                ],
+                "summary": "Create Class",
+                "parameters": [
+                    {
+                        "description": "Create class",
+                        "name": "class",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createClassRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.classResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/classCatalogue": {
+            "get": {
+                "description": "get ClassCatalogue data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "classCatalogue"
+                ],
+                "summary": "get ClassCatalogue",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "userid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.classCatalogueResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create ClassCatalogue data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "classCatalogue"
+                ],
+                "summary": "Create ClassCatalogue",
+                "parameters": [
+                    {
+                        "description": "Create ClassCatalogue Activity",
+                        "name": "ClassCatalogue",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createClassCatalogueRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.classCatalogueResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/device": {
             "get": {
                 "description": "Get Device data from Db.",
@@ -298,6 +475,151 @@
         }
     },
     "definitions": {
+        "api.checkinActivityResponse": {
+            "type": "object",
+            "properties": {
+                "checkin": {
+                    "type": "string"
+                },
+                "checkout": {
+                    "type": "string"
+                },
+                "employeeid": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "locationid": {
+                    "type": "integer"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.classCatalogueResponse": {
+            "type": "object",
+            "properties": {
+                "courseid": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.classResponse": {
+            "type": "object",
+            "properties": {
+                "classtype": {
+                    "description": "weekly daily or monthly",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "instructorid": {
+                    "type": "integer"
+                },
+                "locationid": {
+                    "type": "integer"
+                },
+                "reg_status": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createCheckinActivityRequest": {
+            "type": "object",
+            "required": [
+                "checkin",
+                "checkout",
+                "employeeid",
+                "locationid",
+                "userid"
+            ],
+            "properties": {
+                "checkin": {
+                    "type": "string"
+                },
+                "checkout": {
+                    "type": "string"
+                },
+                "employeeid": {
+                    "type": "integer"
+                },
+                "locationid": {
+                    "type": "integer"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.createClassCatalogueRequest": {
+            "type": "object",
+            "required": [
+                "courseid",
+                "userid"
+            ],
+            "properties": {
+                "courseid": {
+                    "type": "integer"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.createClassRequest": {
+            "type": "object",
+            "required": [
+                "classtype",
+                "description",
+                "end_time",
+                "instructorid",
+                "locationid",
+                "reg_status",
+                "start_time"
+            ],
+            "properties": {
+                "classtype": {
+                    "description": "weekly daily or monthly",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "instructorid": {
+                    "type": "integer"
+                },
+                "locationid": {
+                    "type": "integer"
+                },
+                "reg_status": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                }
+            }
+        },
         "api.createDeviceRequest": {
             "type": "object",
             "required": [

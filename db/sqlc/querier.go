@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	CreateCheckinActivity(ctx context.Context, arg CreateCheckinActivityParams) (Checkinactivity, error)
 	CreateClass(ctx context.Context, arg CreateClassParams) (Class, error)
 	CreateClassCatalogue(ctx context.Context, arg CreateClassCatalogueParams) (Classcatalogue, error)
 	CreateDevice(ctx context.Context, arg CreateDeviceParams) (Device, error)
@@ -17,6 +18,7 @@ type Querier interface {
 	CreateMembership(ctx context.Context, arg CreateMembershipParams) (Membership, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateUserActivity(ctx context.Context, arg CreateUserActivityParams) (Useractivity, error)
+	GetCheckinActivity(ctx context.Context, userid int64) ([]Checkinactivity, error)
 	GetClass(ctx context.Context, id int64) (Class, error)
 	GetDevice(ctx context.Context, id int64) (Device, error)
 	GetEmployee(ctx context.Context, name string) (Employee, error)

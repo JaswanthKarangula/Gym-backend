@@ -1,4 +1,103 @@
 definitions:
+  api.checkinActivityResponse:
+    properties:
+      checkin:
+        type: string
+      checkout:
+        type: string
+      employeeid:
+        type: integer
+      id:
+        type: integer
+      locationid:
+        type: integer
+      userid:
+        type: integer
+    type: object
+  api.classCatalogueResponse:
+    properties:
+      courseid:
+        type: integer
+      id:
+        type: integer
+      userid:
+        type: integer
+    type: object
+  api.classResponse:
+    properties:
+      classtype:
+        description: weekly daily or monthly
+        type: string
+      description:
+        type: string
+      end_time:
+        type: string
+      id:
+        type: integer
+      instructorid:
+        type: integer
+      locationid:
+        type: integer
+      reg_status:
+        type: string
+      start_time:
+        type: string
+    type: object
+  api.createCheckinActivityRequest:
+    properties:
+      checkin:
+        type: string
+      checkout:
+        type: string
+      employeeid:
+        type: integer
+      locationid:
+        type: integer
+      userid:
+        type: integer
+    required:
+    - checkin
+    - checkout
+    - employeeid
+    - locationid
+    - userid
+    type: object
+  api.createClassCatalogueRequest:
+    properties:
+      courseid:
+        type: integer
+      userid:
+        type: integer
+    required:
+    - courseid
+    - userid
+    type: object
+  api.createClassRequest:
+    properties:
+      classtype:
+        description: weekly daily or monthly
+        type: string
+      description:
+        type: string
+      end_time:
+        type: string
+      instructorid:
+        type: integer
+      locationid:
+        type: integer
+      reg_status:
+        type: string
+      start_time:
+        type: string
+    required:
+    - classtype
+    - description
+    - end_time
+    - instructorid
+    - locationid
+    - reg_status
+    - start_time
+    type: object
   api.createDeviceRequest:
     properties:
       description:
@@ -130,6 +229,121 @@ info:
   title: Gym-backend API
   version: "1.0"
 paths:
+  /checkinActivity:
+    get:
+      description: Get CheckinActivity from  data in Db.
+      parameters:
+      - in: query
+        name: userid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.checkinActivityResponse'
+            type: array
+      summary: Get CheckinActivity
+      tags:
+      - checkinActivity
+    post:
+      description: Create CheckinActivity data in Db.
+      parameters:
+      - description: Create Checkin Activity
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.createCheckinActivityRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.checkinActivityResponse'
+      summary: Create CheckinActivity
+      tags:
+      - checkinActivity
+  /class:
+    get:
+      description: get Class data in Db.
+      parameters:
+      - in: query
+        name: classid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.userResponse'
+      summary: get Class
+      tags:
+      - class
+    post:
+      description: Create Class data in Db.
+      parameters:
+      - description: Create class
+        in: body
+        name: class
+        required: true
+        schema:
+          $ref: '#/definitions/api.createClassRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.classResponse'
+      summary: Create Class
+      tags:
+      - class
+  /classCatalogue:
+    get:
+      description: get ClassCatalogue data in Db.
+      parameters:
+      - in: query
+        name: userid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.classCatalogueResponse'
+            type: array
+      summary: get ClassCatalogue
+      tags:
+      - classCatalogue
+    post:
+      description: Create ClassCatalogue data in Db.
+      parameters:
+      - description: Create ClassCatalogue Activity
+        in: body
+        name: ClassCatalogue
+        required: true
+        schema:
+          $ref: '#/definitions/api.createClassCatalogueRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.classCatalogueResponse'
+      summary: Create ClassCatalogue
+      tags:
+      - classCatalogue
   /device:
     get:
       description: Get Device data from Db.

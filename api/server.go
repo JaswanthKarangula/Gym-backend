@@ -39,8 +39,6 @@ func HealthCheck(c *gin.Context) {
 		"data": "Server is up and running",
 	}
 
-	// https://santoshk.dev/posts/2022/how-to-integrate-swagger-ui-in-go-backend-gin-edition/
-
 	c.JSON(http.StatusOK, res)
 }
 
@@ -65,6 +63,15 @@ func (server *Server) setupRouter() {
 
 	router.GET("/userActivity", server.getUserActivity)
 	router.POST("/userActivity", server.createUserActivity)
+
+	router.GET("/checkinActivity", server.getCheckinActivity)
+	router.POST("/checkinActivity", server.createCheckinActivity)
+
+	router.GET("/class", server.getClass)
+	router.POST("/class", server.createClass)
+
+	router.GET("/classCatalogue", server.getClassCatalogue)
+	router.POST("/classCatalogue", server.createClassCatalogue)
 
 	server.router = router
 }
