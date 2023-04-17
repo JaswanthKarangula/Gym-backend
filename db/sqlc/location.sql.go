@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createLocation = `-- name: CreateLocation :one
@@ -21,9 +20,9 @@ INSERT INTO location (
 `
 
 type CreateLocationParams struct {
-	City    sql.NullString `json:"city"`
-	State   sql.NullString `json:"state"`
-	Zipcode sql.NullString `json:"zipcode"`
+	City    string `json:"city"`
+	State   string `json:"state"`
+	Zipcode string `json:"zipcode"`
 }
 
 func (q *Queries) CreateLocation(ctx context.Context, arg CreateLocationParams) (Location, error) {

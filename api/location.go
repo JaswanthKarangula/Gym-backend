@@ -2,7 +2,6 @@ package api
 
 import (
 	db "Gym-backend/db/sqlc"
-	"database/sql"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
@@ -10,9 +9,9 @@ import (
 )
 
 type createLocationRequest struct {
-	City    sql.NullString `json:"city" binding:"required" `
-	State   sql.NullString `json:"state" binding:"required"`
-	Zipcode sql.NullString `json:"zipcode" binding:"required"`
+	City    string `json:"city" binding:"required" `
+	State   string `json:"state" binding:"required"`
+	Zipcode string `json:"zipcode" binding:"required"`
 }
 
 type getLocationRequest struct {
@@ -20,10 +19,10 @@ type getLocationRequest struct {
 }
 
 type locationResponse struct {
-	ID      int64          `json:"id"`
-	City    sql.NullString `json:"city"`
-	State   sql.NullString `json:"state"`
-	Zipcode sql.NullString `json:"zipcode" `
+	ID      int64  `json:"id"`
+	City    string `json:"city"`
+	State   string `json:"state"`
+	Zipcode string `json:"zipcode" `
 }
 
 func newLocationResponse(location db.Location) locationResponse {

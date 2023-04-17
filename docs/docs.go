@@ -15,6 +15,63 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/device": {
+            "get": {
+                "description": "Get Device data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "device"
+                ],
+                "summary": "Get Device From ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "deviceid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.deviceResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Device data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "device"
+                ],
+                "summary": "Create Device",
+                "parameters": [
+                    {
+                        "description": "Create Device",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createDeviceRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.deviceResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/employee": {
             "get": {
                 "description": "Get Employee data from Db.",
@@ -129,6 +186,66 @@ const docTemplate = `{
                 }
             }
         },
+        "/userActivity": {
+            "get": {
+                "description": "Get User Activity data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userActivity"
+                ],
+                "summary": "Get User Activity From ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "userid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.userActivityResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create UserActivity data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userActivity"
+                ],
+                "summary": "Create UserActivity",
+                "parameters": [
+                    {
+                        "description": "Create Device",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createUserActivityRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.userActivityResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "description": "Get User data from Db.",
@@ -188,6 +305,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.createDeviceRequest": {
+            "type": "object",
+            "required": [
+                "description"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Free,busy,not working",
+                    "type": "string"
+                }
+            }
+        },
         "api.createEmployeeRequest": {
             "type": "object",
             "required": [
@@ -231,6 +363,29 @@ const docTemplate = `{
                 }
             }
         },
+        "api.createUserActivityRequest": {
+            "type": "object",
+            "required": [
+                "deviceid",
+                "end",
+                "start",
+                "userid"
+            ],
+            "properties": {
+                "deviceid": {
+                    "type": "integer"
+                },
+                "end": {
+                    "type": "string"
+                },
+                "start": {
+                    "type": "string"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
         "api.createUserRequest": {
             "type": "object",
             "required": [
@@ -247,6 +402,21 @@ const docTemplate = `{
                     "minLength": 6
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.deviceResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "Free,busy,not working",
                     "type": "string"
                 }
             }
@@ -282,6 +452,26 @@ const docTemplate = `{
                 },
                 "zipcode": {
                     "type": "string"
+                }
+            }
+        },
+        "api.userActivityResponse": {
+            "type": "object",
+            "properties": {
+                "deviceid": {
+                    "type": "integer"
+                },
+                "end": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "start": {
+                    "type": "string"
+                },
+                "userid": {
+                    "type": "integer"
                 }
             }
         },

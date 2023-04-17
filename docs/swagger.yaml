@@ -1,4 +1,14 @@
 definitions:
+  api.createDeviceRequest:
+    properties:
+      description:
+        type: string
+      status:
+        description: Free,busy,not working
+        type: string
+    required:
+    - description
+    type: object
   api.createEmployeeRequest:
     properties:
       email:
@@ -29,6 +39,22 @@ definitions:
     - state
     - zipcode
     type: object
+  api.createUserActivityRequest:
+    properties:
+      deviceid:
+        type: integer
+      end:
+        type: string
+      start:
+        type: string
+      userid:
+        type: integer
+    required:
+    - deviceid
+    - end
+    - start
+    - userid
+    type: object
   api.createUserRequest:
     properties:
       email:
@@ -42,6 +68,16 @@ definitions:
     - email
     - password
     - username
+    type: object
+  api.deviceResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        description: Free,busy,not working
+        type: string
     type: object
   api.employeeResponse:
     properties:
@@ -65,6 +101,19 @@ definitions:
       zipcode:
         type: string
     type: object
+  api.userActivityResponse:
+    properties:
+      deviceid:
+        type: integer
+      end:
+        type: string
+      id:
+        type: integer
+      start:
+        type: string
+      userid:
+        type: integer
+    type: object
   api.userResponse:
     properties:
       created_at:
@@ -81,6 +130,43 @@ info:
   title: Gym-backend API
   version: "1.0"
 paths:
+  /device:
+    get:
+      description: Get Device data from Db.
+      parameters:
+      - in: query
+        name: deviceid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.deviceResponse'
+      summary: Get Device From ID
+      tags:
+      - device
+    post:
+      description: Create Device data in Db.
+      parameters:
+      - description: Create Device
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.createDeviceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.deviceResponse'
+      summary: Create Device
+      tags:
+      - device
   /employee:
     get:
       description: Get Employee data from Db.
@@ -155,6 +241,45 @@ paths:
       summary: Create Location
       tags:
       - location
+  /userActivity:
+    get:
+      description: Get User Activity data from Db.
+      parameters:
+      - in: query
+        name: userid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.userActivityResponse'
+            type: array
+      summary: Get User Activity From ID
+      tags:
+      - userActivity
+    post:
+      description: Create UserActivity data in Db.
+      parameters:
+      - description: Create Device
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.createUserActivityRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.userActivityResponse'
+      summary: Create UserActivity
+      tags:
+      - userActivity
   /users:
     get:
       description: Get User data from Db.

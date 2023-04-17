@@ -1,5 +1,9 @@
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO public;
-COMMENT ON SCHEMA public IS 'standard public schema';
+DROP TABLE public.users CASCADE;
+DROP TABLE public.employee CASCADE;
+DROP TABLE public."location" CASCADE;
+DROP TABLE public.classcatalogue CASCADE;
+DROP TABLE public.useractivity CASCADE;
+DROP TABLE public.membership CASCADE;
+DROP TABLE public.checkinactivity CASCADE;
+DROP TABLE public."class" CASCADE;
+DROP TABLE public.device CASCADE;

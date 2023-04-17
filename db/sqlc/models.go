@@ -53,10 +53,10 @@ type Employee struct {
 }
 
 type Location struct {
-	ID      int64          `json:"id"`
-	City    sql.NullString `json:"city"`
-	State   sql.NullString `json:"state"`
-	Zipcode sql.NullString `json:"zipcode"`
+	ID      int64  `json:"id"`
+	City    string `json:"city"`
+	State   string `json:"state"`
+	Zipcode string `json:"zipcode"`
 }
 
 type Membership struct {

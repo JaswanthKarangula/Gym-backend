@@ -60,6 +60,12 @@ func (server *Server) setupRouter() {
 	router.GET("/location", server.getLocation)
 	router.POST("/location", server.createLocation)
 
+	router.GET("/device", server.getDevice)
+	router.POST("/device", server.createDevice)
+
+	router.GET("/userActivity", server.getUserActivity)
+	router.POST("/userActivity", server.createUserActivity)
+
 	server.router = router
 }
 

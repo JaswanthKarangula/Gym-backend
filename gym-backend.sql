@@ -42,9 +42,9 @@ CREATE TABLE "classcatalogue" (
 
 CREATE TABLE "location" (
   "id" BIGSERIAL PRIMARY KEY,
-  "city" varchar,
-  "state" varchar,
-  "zipcode" varchar
+  "city" varchar NOT NULL,
+  "state" varchar NOT NULL,
+  "zipcode" varchar NOT NULL
 );
 
 CREATE TABLE "checkinactivity" (
