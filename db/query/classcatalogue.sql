@@ -1,16 +1,11 @@
--- name: CreateEmployee :one
-INSERT INTO employee (
-    name,
-    email,
-    hashedpassword,
-    locationid
-) VALUES (
-             $1, $2, $3, $4
-         ) RETURNING *;
+-- name: CreateClassCatalogue :one
+INSERT INTO classcatalogue (courseid,userid)
+VALUES ($1,$2) RETURNING *;
 
--- name: GetEmployee :one
-SELECT * FROM employee
-WHERE name = $1 LIMIT 1;
+
+-- name: GetUserClass :many
+SELECT * FROM classcatalogue
+WHERE userid = $1;
 
 -- -- name: UpdateUser :one
 -- UPDATE users

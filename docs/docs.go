@@ -15,6 +15,120 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/employee": {
+            "get": {
+                "description": "Get Employee data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "employee"
+                ],
+                "summary": "Get Employee From EmployeeName",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "employeename",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.userResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Employee data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "employee"
+                ],
+                "summary": "Create Employee",
+                "parameters": [
+                    {
+                        "description": "Create employee",
+                        "name": "employee",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createEmployeeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.employeeResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/location": {
+            "get": {
+                "description": "Get User data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "location"
+                ],
+                "summary": "Get Location From ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "locationid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.locationResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Location data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "location"
+                ],
+                "summary": "Create Location",
+                "parameters": [
+                    {
+                        "description": "Create Location",
+                        "name": "users",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createLocationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.locationResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "description": "Get User data from Db.",
@@ -74,16 +188,19 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.createUserRequest": {
+        "api.createEmployeeRequest": {
             "type": "object",
             "required": [
                 "email",
+                "locationid",
                 "password",
                 "username"
             ],
             "properties": {
                 "email": {
-                    "description": ",emai for email validation",
+                    "type": "string"
+                },
+                "locationid": {
                     "type": "integer"
                 },
                 "password": {
@@ -95,6 +212,79 @@ const docTemplate = `{
                 }
             }
         },
+        "api.createLocationRequest": {
+            "type": "object",
+            "required": [
+                "city",
+                "state",
+                "zipcode"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "zipcode": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.employeeResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "employeename": {
+                    "type": "string"
+                },
+                "locationid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.locationResponse": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "zipcode": {
+                    "type": "string"
+                }
+            }
+        },
         "api.userResponse": {
             "type": "object",
             "properties": {
@@ -102,7 +292,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "username": {
                     "type": "string"

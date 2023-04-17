@@ -1,9 +1,38 @@
 definitions:
+  api.createEmployeeRequest:
+    properties:
+      email:
+        type: string
+      locationid:
+        type: integer
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - locationid
+    - password
+    - username
+    type: object
+  api.createLocationRequest:
+    properties:
+      city:
+        type: string
+      state:
+        type: string
+      zipcode:
+        type: string
+    required:
+    - city
+    - state
+    - zipcode
+    type: object
   api.createUserRequest:
     properties:
       email:
-        description: ',emai for email validation'
-        type: integer
+        type: string
       password:
         minLength: 6
         type: string
@@ -14,12 +43,34 @@ definitions:
     - password
     - username
     type: object
+  api.employeeResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      employeename:
+        type: string
+      locationid:
+        type: integer
+    type: object
+  api.locationResponse:
+    properties:
+      city:
+        type: string
+      id:
+        type: integer
+      state:
+        type: string
+      zipcode:
+        type: string
+    type: object
   api.userResponse:
     properties:
       created_at:
         type: string
       email:
-        type: integer
+        type: string
       username:
         type: string
     type: object
@@ -30,6 +81,80 @@ info:
   title: Gym-backend API
   version: "1.0"
 paths:
+  /employee:
+    get:
+      description: Get Employee data from Db.
+      parameters:
+      - in: query
+        name: employeename
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.userResponse'
+      summary: Get Employee From EmployeeName
+      tags:
+      - employee
+    post:
+      description: Create Employee data in Db.
+      parameters:
+      - description: Create employee
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/api.createEmployeeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.employeeResponse'
+      summary: Create Employee
+      tags:
+      - employee
+  /location:
+    get:
+      description: Get User data from Db.
+      parameters:
+      - in: query
+        name: locationid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.locationResponse'
+      summary: Get Location From ID
+      tags:
+      - location
+    post:
+      description: Create Location data in Db.
+      parameters:
+      - description: Create Location
+        in: body
+        name: users
+        required: true
+        schema:
+          $ref: '#/definitions/api.createLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.locationResponse'
+      summary: Create Location
+      tags:
+      - location
   /users:
     get:
       description: Get User data from Db.

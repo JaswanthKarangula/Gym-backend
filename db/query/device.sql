@@ -1,16 +1,12 @@
--- name: CreateEmployee :one
-INSERT INTO employee (
-    name,
-    email,
-    hashedpassword,
-    locationid
-) VALUES (
-             $1, $2, $3, $4
-         ) RETURNING *;
+-- name: CreateDevice :one
+insert into device  (description ,status)
+VALUES
+    ($1,$2) RETURNING *;
 
--- name: GetEmployee :one
-SELECT * FROM employee
-WHERE name = $1 LIMIT 1;
+
+-- name: GetDevice :one
+SELECT * FROM device
+WHERE id = $1 LIMIT 1;
 
 -- -- name: UpdateUser :one
 -- UPDATE users

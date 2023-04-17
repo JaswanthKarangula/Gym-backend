@@ -1,16 +1,20 @@
--- name: CreateEmployee :one
-INSERT INTO employee (
-    name,
-    email,
-    hashedpassword,
+-- name: CreateClass :one
+INSERT INTO class (
+    instructorid,
+    reg_status,
+    start_time,
+    end_time,
+    description,
+    classtype,
     locationid
-) VALUES (
-             $1, $2, $3, $4
-         ) RETURNING *;
+)
+VALUES
+    ($1, $2, $3,$4, $5, $6,$7) RETURNING *;
 
--- name: GetEmployee :one
-SELECT * FROM employee
-WHERE name = $1 LIMIT 1;
+
+-- name: GetClass :one
+SELECT * FROM class
+WHERE id = $1 LIMIT 1;
 
 -- -- name: UpdateUser :one
 -- UPDATE users

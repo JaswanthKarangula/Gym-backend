@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createEmployee = `-- name: CreateEmployee :one
@@ -22,10 +21,10 @@ INSERT INTO employee (
 `
 
 type CreateEmployeeParams struct {
-	Name           string        `json:"name"`
-	Email          int64         `json:"email"`
-	Hashedpassword string        `json:"hashedpassword"`
-	Locationid     sql.NullInt64 `json:"locationid"`
+	Name           string `json:"name"`
+	Email          string `json:"email"`
+	Hashedpassword string `json:"hashedpassword"`
+	Locationid     int64  `json:"locationid"`
 }
 
 func (q *Queries) CreateEmployee(ctx context.Context, arg CreateEmployeeParams) (Employee, error) {
@@ -49,11 +48,11 @@ func (q *Queries) CreateEmployee(ctx context.Context, arg CreateEmployeeParams) 
 
 const getEmployee = `-- name: GetEmployee :one
 SELECT id, name, email, hashedpassword, locationid, created_at FROM employee
-WHERE id = $1 LIMIT 1
+WHERE name = $1 LIMIT 1
 `
 
-func (q *Queries) GetEmployee(ctx context.Context, id int64) (Employee, error) {
-	row := q.db.QueryRowContext(ctx, getEmployee, id)
+func (q *Queries) GetEmployee(ctx context.Context, name string) (Employee, error) {
+	row := q.db.QueryRowContext(ctx, getEmployee, name)
 	var i Employee
 	err := row.Scan(
 		&i.ID,

@@ -1,16 +1,13 @@
--- name: CreateEmployee :one
-INSERT INTO employee (
-    name,
-    email,
-    hashedpassword,
-    locationid
-) VALUES (
-             $1, $2, $3, $4
-         ) RETURNING *;
+-- name: CreateUserActivity :one
+INSERT INTO useractivity
+("start" ,"end" ,userid,deviceid)
+VALUES
+    ($1,$2,$3,$4) RETURNING *;
 
--- name: GetEmployee :one
-SELECT * FROM employee
-WHERE name = $1 LIMIT 1;
+
+-- name: GetUserActivity :many
+SELECT * FROM useractivity
+WHERE userid = $1;
 
 -- -- name: UpdateUser :one
 -- UPDATE users

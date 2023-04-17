@@ -9,14 +9,22 @@ import (
 )
 
 type Querier interface {
+	CreateClass(ctx context.Context, arg CreateClassParams) (Class, error)
+	CreateClassCatalogue(ctx context.Context, arg CreateClassCatalogueParams) (Classcatalogue, error)
+	CreateDevice(ctx context.Context, arg CreateDeviceParams) (Device, error)
 	CreateEmployee(ctx context.Context, arg CreateEmployeeParams) (Employee, error)
 	CreateLocation(ctx context.Context, arg CreateLocationParams) (Location, error)
 	CreateMembership(ctx context.Context, arg CreateMembershipParams) (Membership, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
-	GetEmployee(ctx context.Context, id int64) (Employee, error)
+	CreateUserActivity(ctx context.Context, arg CreateUserActivityParams) (Useractivity, error)
+	GetClass(ctx context.Context, id int64) (Class, error)
+	GetDevice(ctx context.Context, id int64) (Device, error)
+	GetEmployee(ctx context.Context, name string) (Employee, error)
 	GetLocation(ctx context.Context, id int64) (Location, error)
 	GetMembership(ctx context.Context, userid int64) (Membership, error)
 	GetUser(ctx context.Context, name string) (User, error)
+	GetUserActivity(ctx context.Context, userid int64) ([]Useractivity, error)
+	GetUserClass(ctx context.Context, userid int64) ([]Classcatalogue, error)
 }
 
 var _ Querier = (*Queries)(nil)

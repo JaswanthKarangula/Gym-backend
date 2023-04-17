@@ -1,7 +1,7 @@
 CREATE TABLE "users" (
                          "id" BIGSERIAL PRIMARY KEY,
                          "name" varchar NOT NULL,
-                         "email" bigint NOT NULL,
+                         "email" varchar NOT NULL,
                          "hashedpassword" varchar NOT NULL,
                          "created_at" timestamptz NOT NULL DEFAULT (now())
 );
@@ -9,9 +9,9 @@ CREATE TABLE "users" (
 CREATE TABLE "employee" (
                             "id" BIGSERIAL PRIMARY KEY,
                             "name" varchar NOT NULL,
-                            "email" bigint NOT NULL,
+                            "email" varchar NOT NULL,
                             "hashedpassword" varchar NOT NULL,
-                            "locationid" bigserial,
+                            "locationid" bigserial NOT NULL,
                             "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE "class" (
                          "end_time" timestamptz NOT NULL,
                          "description" varchar DEFAULT 'Class description',
                          "classtype" varchar DEFAULT 'weekly',
-                         "locationid" bigserial
+                         "locationid" bigserial NOT NULL
 );
 
 CREATE TABLE "membership" (
@@ -69,6 +69,10 @@ CREATE TABLE "device" (
                           "description" varchar NOT NULL,
                           "status" varchar NOT NULL DEFAULT 'Free'
 );
+
+CREATE UNIQUE INDEX ON "users" ("name");
+
+CREATE UNIQUE INDEX ON "employee" ("name");
 
 CREATE UNIQUE INDEX ON "membership" ("userid");
 

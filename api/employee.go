@@ -9,44 +9,47 @@ import (
 	"time"
 )
 
-type createUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum"`
-	Password string `json:"password" binding:"required,min=6"`
-	Email    string `json:"email" binding:"required,email"`
+type createEmployeeRequest struct {
+	Employeename string `json:"username" binding:"required,alphanum"`
+	Password     string `json:"password" binding:"required,min=6"`
+	Email        string `json:"email" binding:"required,email"`
+	Locationid   int64  `json:"locationid" binding:"required"`
 }
 
-type getUserFromIDRequest struct {
+type getEmployeeFromIDRequest struct {
 	UserId int64 `form:"userid" binding:"required"`
 }
 
-type getUserFromNameRequest struct {
-	Username string `form:"username" binding:"required"`
+type getEmployeeFromNameRequest struct {
+	Employeename string `form:"employeename" binding:"required"`
 }
 
-type userResponse struct {
-	Username  string    `json:"username"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"created_at"`
+type employeeResponse struct {
+	Employeename string    `json:"employeename"`
+	Email        string    `json:"email"`
+	CreatedAt    time.Time `json:"created_at"`
+	Locationid   int64     `json:"locationid"`
 }
 
-func newUserResponse(user db.User) userResponse {
-	return userResponse{
-		Username:  user.Name,
-		Email:     user.Email,
-		CreatedAt: user.CreatedAt,
+func newEmployeeResponse(user db.Employee) employeeResponse {
+	return employeeResponse{
+		Employeename: user.Name,
+		Email:        user.Email,
+		Locationid:   user.Locationid,
+		CreatedAt:    user.CreatedAt,
 	}
 }
 
 // CreateTags		godoc
-// @Summary			Create User
-// @Description 	Create User data in Db.
-// @Param 			users body createUserRequest true "Create user"
+// @Summary			Create Employee
+// @Description 	Create Employee data in Db.
+// @Param 			employee body createEmployeeRequest true "Create employee"
 // @Produce 		application/json
-// @Tags 			user
-// @Success 		200 {object} userResponse{}
-// @Router			/users [post]
-func (server *Server) createUser(ctx *gin.Context) {
-	var req createUserRequest
+// @Tags 			employee
+// @Success 		200 {object} employeeResponse{}
+// @Router			/employee [post]
+func (server *Server) createEmployee(ctx *gin.Context) {
+	var req createEmployeeRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
@@ -58,13 +61,20 @@ func (server *Server) createUser(ctx *gin.Context) {
 	//	return
 	//}
 
-	arg := db.CreateUserParams{
-		Name:           req.Username,
-		Hashedpassword: req.Password,
+	//arg := db.CreateUserParams{
+	//	Name:           req.Username,
+	//	Hashedpassword: req.Password,
+	//	Email:          req.Email,
+	//}
+
+	arg := db.CreateEmployeeParams{
+		Name:           req.Employeename,
 		Email:          req.Email,
+		Hashedpassword: req.Password,
+		Locationid:     req.Locationid,
 	}
 
-	user, err := server.store.CreateUser(ctx, arg)
+	user, err := server.store.CreateEmployee(ctx, arg)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
@@ -77,20 +87,20 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
-	rsp := newUserResponse(user)
+	rsp := newEmployeeResponse(user)
 	ctx.JSON(http.StatusOK, rsp)
 }
 
 // CreateTags		godoc
-// @Summary			Get User From UserName
-// @Description 	Get User data from Db.
-// @Param 			users query getUserFromNameRequest true "Get user"
+// @Summary			Get Employee From EmployeeName
+// @Description 	Get Employee data from Db.
+// @Param 			users query getEmployeeFromNameRequest true "Get Employee"
 // @Produce 		application/json
-// @Tags 			user
+// @Tags 			employee
 // @Success 		200 {object} userResponse{}
-// @Router			/users [get]
-func (server *Server) getUser(ctx *gin.Context) {
-	var req getUserFromNameRequest
+// @Router			/employee [get]
+func (server *Server) getEmployee(ctx *gin.Context) {
+	var req getEmployeeFromNameRequest
 
 	if err := ctx.ShouldBindQuery(&req); err != nil {
 		fmt.Println(req)
@@ -100,13 +110,13 @@ func (server *Server) getUser(ctx *gin.Context) {
 		return
 	}
 	//username := ctx.Query("username")
-	user, err := server.store.GetUser(ctx, req.Username)
+	employee, err := server.store.GetEmployee(ctx, req.Employeename)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
-	rsp := newUserResponse(user)
+	rsp := newEmployeeResponse(employee)
 	ctx.JSON(http.StatusOK, rsp)
 }
 

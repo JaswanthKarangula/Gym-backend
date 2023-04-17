@@ -27,7 +27,7 @@ type Class struct {
 	Description  sql.NullString `json:"description"`
 	// weekly daily or monthly
 	Classtype  sql.NullString `json:"classtype"`
-	Locationid sql.NullInt64  `json:"locationid"`
+	Locationid int64          `json:"locationid"`
 }
 
 type Classcatalogue struct {
@@ -44,12 +44,12 @@ type Device struct {
 }
 
 type Employee struct {
-	ID             int64         `json:"id"`
-	Name           string        `json:"name"`
-	Email          int64         `json:"email"`
-	Hashedpassword string        `json:"hashedpassword"`
-	Locationid     sql.NullInt64 `json:"locationid"`
-	CreatedAt      time.Time     `json:"created_at"`
+	ID             int64     `json:"id"`
+	Name           string    `json:"name"`
+	Email          string    `json:"email"`
+	Hashedpassword string    `json:"hashedpassword"`
+	Locationid     int64     `json:"locationid"`
+	CreatedAt      time.Time `json:"created_at"`
 }
 
 type Location struct {
@@ -70,7 +70,7 @@ type Membership struct {
 type User struct {
 	ID             int64     `json:"id"`
 	Name           string    `json:"name"`
-	Email          int64     `json:"email"`
+	Email          string    `json:"email"`
 	Hashedpassword string    `json:"hashedpassword"`
 	CreatedAt      time.Time `json:"created_at"`
 }
