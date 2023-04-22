@@ -12,16 +12,17 @@ import (
 
 const createUserActivity = `-- name: CreateUserActivity :one
 INSERT INTO useractivity
-("start" ,"end" ,userid,deviceid)
+("start" ,"end" ,userid,deviceid,locationid)
 VALUES
-    ($1,$2,$3,$4) RETURNING id, start, "end", userid, deviceid
+    ($1,$2,$3,$4,$5) RETURNING id, start, "end", userid, deviceid, locationid
 `
 
 type CreateUserActivityParams struct {
-	Start    time.Time `json:"start"`
-	End      time.Time `json:"end"`
-	Userid   int64     `json:"userid"`
-	Deviceid int64     `json:"deviceid"`
+	Start      time.Time `json:"start"`
+	End        time.Time `json:"end"`
+	Userid     int64     `json:"userid"`
+	Deviceid   int64     `json:"deviceid"`
+	Locationid int64     `json:"locationid"`
 }
 
 func (q *Queries) CreateUserActivity(ctx context.Context, arg CreateUserActivityParams) (Useractivity, error) {
@@ -30,6 +31,7 @@ func (q *Queries) CreateUserActivity(ctx context.Context, arg CreateUserActivity
 		arg.End,
 		arg.Userid,
 		arg.Deviceid,
+		arg.Locationid,
 	)
 	var i Useractivity
 	err := row.Scan(
@@ -38,12 +40,13 @@ func (q *Queries) CreateUserActivity(ctx context.Context, arg CreateUserActivity
 		&i.End,
 		&i.Userid,
 		&i.Deviceid,
+		&i.Locationid,
 	)
 	return i, err
 }
 
 const getUserActivity = `-- name: GetUserActivity :many
-SELECT id, start, "end", userid, deviceid FROM useractivity
+SELECT id, start, "end", userid, deviceid, locationid FROM useractivity
 WHERE userid = $1
 `
 
@@ -62,6 +65,7 @@ func (q *Queries) GetUserActivity(ctx context.Context, userid int64) ([]Useracti
 			&i.End,
 			&i.Userid,
 			&i.Deviceid,
+			&i.Locationid,
 		); err != nil {
 			return nil, err
 		}

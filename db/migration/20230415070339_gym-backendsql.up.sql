@@ -17,13 +17,17 @@ CREATE TABLE "employee" (
 
 CREATE TABLE "class" (
                          "id" BIGSERIAL PRIMARY KEY,
-                         "instructorid" bigserial NOT NULL,
-                         "reg_status" varchar DEFAULT 'Open',
-                         "start_time" timestamptz NOT NULL,
-                         "end_time" timestamptz NOT NULL,
-                         "description" varchar DEFAULT 'Class description',
+                         "instructorname" varchar NOT NULL,
+                         "regstatus" varchar DEFAULT 'Open',
+                         "startdate" timestamptz NOT NULL,
+                         "enddate" timestamptz NOT NULL,
+                         "starttime" timestamptz NOT NULL,
+                         "endtime" timestamptz NOT NULL,
+                         "day" varchar NOT NULL,
+                         "name" varchar DEFAULT 'Class description',
                          "classtype" varchar DEFAULT 'weekly',
-                         "locationid" bigserial NOT NULL
+                         "locationid" bigserial NOT NULL,
+                         "cost" int NOT NULL
 );
 
 CREATE TABLE "membership" (
@@ -61,7 +65,8 @@ CREATE TABLE "useractivity" (
                                 "start" timestamptz NOT NULL,
                                 "end" timestamptz NOT NULL,
                                 "userid" bigserial NOT NULL,
-                                "deviceid" bigserial NOT NULL
+                                "deviceid" bigserial NOT NULL,
+                                "locationid" bigserial NOT NULL
 );
 
 CREATE TABLE "device" (
@@ -83,8 +88,6 @@ COMMENT ON COLUMN "class"."classtype" IS 'weekly daily or monthly';
 COMMENT ON COLUMN "membership"."member_type" IS '0 is admin 1 is member 2 is non member ';
 
 COMMENT ON COLUMN "device"."status" IS 'Free,busy,not working';
-
-ALTER TABLE "class" ADD FOREIGN KEY ("instructorid") REFERENCES "employee" ("id");
 
 ALTER TABLE "membership" ADD FOREIGN KEY ("userid") REFERENCES "users" ("id");
 

@@ -49,7 +49,7 @@ func TestGetUser(t *testing.T) {
 //	newFullName := util.RandomOwner()
 //	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
 //		Username: oldUser.Username,
-//		FullName: sql.NullString{
+//		FullName: string{
 //			String: newFullName,
 //			Valid:  true,
 //		},
@@ -68,7 +68,7 @@ func TestGetUser(t *testing.T) {
 //	newEmail := util.RandomEmail()
 //	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
 //		Username: oldUser.Username,
-//		Email: sql.NullString{
+//		Email: string{
 //			String: newEmail,
 //			Valid:  true,
 //		},
@@ -90,7 +90,7 @@ func TestGetUser(t *testing.T) {
 //
 //	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
 //		Username: oldUser.Username,
-//		HashedPassword: sql.NullString{
+//		HashedPassword: string{
 //			String: newHashedPassword,
 //			Valid:  true,
 //		},
@@ -114,15 +114,15 @@ func TestGetUser(t *testing.T) {
 //
 //	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
 //		Username: oldUser.Username,
-//		FullName: sql.NullString{
+//		FullName: string{
 //			String: newFullName,
 //			Valid:  true,
 //		},
-//		Email: sql.NullString{
+//		Email: string{
 //			String: newEmail,
 //			Valid:  true,
 //		},
-//		HashedPassword: sql.NullString{
+//		HashedPassword: string{
 //			String: newHashedPassword,
 //			Valid:  true,
 //		},

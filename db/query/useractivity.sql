@@ -1,8 +1,8 @@
 -- name: CreateUserActivity :one
 INSERT INTO useractivity
-("start" ,"end" ,userid,deviceid)
+("start" ,"end" ,userid,deviceid,locationid)
 VALUES
-    ($1,$2,$3,$4) RETURNING *;
+    ($1,$2,$3,$4,$5) RETURNING *;
 
 
 -- name: GetUserActivity :many

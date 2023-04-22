@@ -64,3 +64,22 @@ func (q *Queries) GetEmployee(ctx context.Context, name string) (Employee, error
 	)
 	return i, err
 }
+
+const getEmployeeFromEmail = `-- name: GetEmployeeFromEmail :one
+SELECT id, name, email, hashedpassword, locationid, created_at FROM employee
+WHERE email = $1 LIMIT 1
+`
+
+func (q *Queries) GetEmployeeFromEmail(ctx context.Context, email string) (Employee, error) {
+	row := q.db.QueryRowContext(ctx, getEmployeeFromEmail, email)
+	var i Employee
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.Hashedpassword,
+		&i.Locationid,
+		&i.CreatedAt,
+	)
+	return i, err
+}

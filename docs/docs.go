@@ -363,6 +363,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/login": {
+            "post": {
+                "description": "Validate login Request and return corresponding object.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Validate login Request",
+                "parameters": [
+                    {
+                        "description": "Valid User/Employee",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.loginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.loginResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/userActivity": {
             "get": {
                 "description": "Get User Activity data from Db.",
@@ -526,25 +557,37 @@ const docTemplate = `{
                     "description": "weekly daily or monthly",
                     "type": "string"
                 },
-                "description": {
+                "cost": {
+                    "type": "integer"
+                },
+                "day": {
                     "type": "string"
                 },
-                "end_time": {
+                "enddate": {
+                    "type": "string"
+                },
+                "endtime": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "instructorid": {
-                    "type": "integer"
+                "instructorname": {
+                    "type": "string"
                 },
                 "locationid": {
                     "type": "integer"
                 },
-                "reg_status": {
+                "name": {
                     "type": "string"
                 },
-                "start_time": {
+                "regstatus": {
+                    "type": "string"
+                },
+                "startdate": {
+                    "type": "string"
+                },
+                "starttime": {
                     "type": "string"
                 }
             }
@@ -594,35 +637,42 @@ const docTemplate = `{
         "api.createClassRequest": {
             "type": "object",
             "required": [
-                "classtype",
-                "description",
-                "end_time",
-                "instructorid",
+                "cost",
+                "day",
+                "enddate",
+                "endtime",
+                "instructorname",
                 "locationid",
-                "reg_status",
-                "start_time"
+                "name",
+                "startdate",
+                "starttime"
             ],
             "properties": {
-                "classtype": {
-                    "description": "weekly daily or monthly",
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "end_time": {
-                    "type": "string"
-                },
-                "instructorid": {
+                "cost": {
                     "type": "integer"
+                },
+                "day": {
+                    "type": "string"
+                },
+                "enddate": {
+                    "type": "string"
+                },
+                "endtime": {
+                    "type": "string"
+                },
+                "instructorname": {
+                    "type": "string"
                 },
                 "locationid": {
                     "type": "integer"
                 },
-                "reg_status": {
+                "name": {
                     "type": "string"
                 },
-                "start_time": {
+                "startdate": {
+                    "type": "string"
+                },
+                "starttime": {
                     "type": "string"
                 }
             }
@@ -777,6 +827,36 @@ const docTemplate = `{
                 }
             }
         },
+        "api.loginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                }
+            }
+        },
+        "api.loginResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "object": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "api.userActivityResponse": {
             "type": "object",
             "properties": {
@@ -787,6 +867,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "locationid": {
                     "type": "integer"
                 },
                 "start": {

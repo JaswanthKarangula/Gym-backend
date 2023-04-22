@@ -55,3 +55,21 @@ func (q *Queries) GetUser(ctx context.Context, name string) (User, error) {
 	)
 	return i, err
 }
+
+const getUserFromEmail = `-- name: GetUserFromEmail :one
+SELECT id, name, email, hashedpassword, created_at FROM users
+WHERE email = $1 LIMIT 1
+`
+
+func (q *Queries) GetUserFromEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserFromEmail, email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.Hashedpassword,
+		&i.CreatedAt,
+	)
+	return i, err
+}

@@ -19,15 +19,19 @@ type Checkinactivity struct {
 }
 
 type Class struct {
-	ID           int64          `json:"id"`
-	Instructorid int64          `json:"instructorid"`
-	RegStatus    string `json:"reg_status"`
-	StartTime    time.Time      `json:"start_time"`
-	EndTime      time.Time      `json:"end_time"`
-	Description  string `json:"description"`
+	ID             int64          `json:"id"`
+	Instructorname string         `json:"instructorname"`
+	Regstatus      string `json:"regstatus"`
+	Startdate      time.Time      `json:"startdate"`
+	Enddate        time.Time      `json:"enddate"`
+	Starttime      time.Time      `json:"starttime"`
+	Endtime        time.Time      `json:"endtime"`
+	Day            string         `json:"day"`
+	Name           string `json:"name"`
 	// weekly daily or monthly
 	Classtype  string `json:"classtype"`
 	Locationid int64          `json:"locationid"`
+	Cost       int32          `json:"cost"`
 }
 
 type Classcatalogue struct {
@@ -76,9 +80,10 @@ type User struct {
 }
 
 type Useractivity struct {
-	ID       int64     `json:"id"`
-	Start    time.Time `json:"start"`
-	End      time.Time `json:"end"`
-	Userid   int64     `json:"userid"`
-	Deviceid int64     `json:"deviceid"`
+	ID         int64     `json:"id"`
+	Start      time.Time `json:"start"`
+	End        time.Time `json:"end"`
+	Userid     int64     `json:"userid"`
+	Deviceid   int64     `json:"deviceid"`
+	Locationid int64     `json:"locationid"`
 }

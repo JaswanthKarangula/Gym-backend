@@ -7,6 +7,10 @@ VALUES ($1,$2) RETURNING *;
 SELECT * FROM classcatalogue
 WHERE userid = $1;
 
+-- name: GetClassEnrolment :many
+SELECT userid FROM classcatalogue
+WHERE courseid = $1;
+
 -- -- name: UpdateUser :one
 -- UPDATE users
 -- SET

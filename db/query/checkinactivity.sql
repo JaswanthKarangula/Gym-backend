@@ -9,6 +9,8 @@ VALUES
 SELECT * FROM checkinactivity
 WHERE userid = $1;
 
+
+
 -- -- name: UpdateUser :one
 -- UPDATE users
 -- SET

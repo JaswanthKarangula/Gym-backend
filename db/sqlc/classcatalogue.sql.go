@@ -26,6 +26,34 @@ func (q *Queries) CreateClassCatalogue(ctx context.Context, arg CreateClassCatal
 	return i, err
 }
 
+const getClassEnrolment = `-- name: GetClassEnrolment :many
+SELECT userid FROM classcatalogue
+WHERE courseid = $1
+`
+
+func (q *Queries) GetClassEnrolment(ctx context.Context, courseid int64) ([]int64, error) {
+	rows, err := q.db.QueryContext(ctx, getClassEnrolment, courseid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []int64{}
+	for rows.Next() {
+		var userid int64
+		if err := rows.Scan(&userid); err != nil {
+			return nil, err
+		}
+		items = append(items, userid)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getUserClass = `-- name: GetUserClass :many
 SELECT id, userid, courseid FROM classcatalogue
 WHERE userid = $1

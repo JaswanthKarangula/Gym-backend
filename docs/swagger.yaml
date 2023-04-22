@@ -28,19 +28,27 @@ definitions:
       classtype:
         description: weekly daily or monthly
         type: string
-      description:
+      cost:
+        type: integer
+      day:
         type: string
-      end_time:
+      enddate:
+        type: string
+      endtime:
         type: string
       id:
         type: integer
-      instructorid:
-        type: integer
+      instructorname:
+        type: string
       locationid:
         type: integer
-      reg_status:
+      name:
         type: string
-      start_time:
+      regstatus:
+        type: string
+      startdate:
+        type: string
+      starttime:
         type: string
     type: object
   api.createCheckinActivityRequest:
@@ -74,29 +82,34 @@ definitions:
     type: object
   api.createClassRequest:
     properties:
-      classtype:
-        description: weekly daily or monthly
-        type: string
-      description:
-        type: string
-      end_time:
-        type: string
-      instructorid:
+      cost:
         type: integer
+      day:
+        type: string
+      enddate:
+        type: string
+      endtime:
+        type: string
+      instructorname:
+        type: string
       locationid:
         type: integer
-      reg_status:
+      name:
         type: string
-      start_time:
+      startdate:
+        type: string
+      starttime:
         type: string
     required:
-    - classtype
-    - description
-    - end_time
-    - instructorid
+    - cost
+    - day
+    - enddate
+    - endtime
+    - instructorname
     - locationid
-    - reg_status
-    - start_time
+    - name
+    - startdate
+    - starttime
     type: object
   api.createDeviceRequest:
     properties:
@@ -200,6 +213,26 @@ definitions:
       zipcode:
         type: string
     type: object
+  api.loginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  api.loginResponse:
+    properties:
+      error:
+        type: string
+      object:
+        type: string
+      type:
+        type: string
+    type: object
   api.userActivityResponse:
     properties:
       deviceid:
@@ -207,6 +240,8 @@ definitions:
       end:
         type: string
       id:
+        type: integer
+      locationid:
         type: integer
       start:
         type: string
@@ -455,6 +490,26 @@ paths:
       summary: Create Location
       tags:
       - location
+  /login:
+    post:
+      description: Validate login Request and return corresponding object.
+      parameters:
+      - description: Valid User/Employee
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/api.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.loginResponse'
+      summary: Validate login Request
+      tags:
+      - auth
   /userActivity:
     get:
       description: Get User Activity data from Db.

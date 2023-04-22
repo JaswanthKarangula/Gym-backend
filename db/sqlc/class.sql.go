@@ -12,54 +12,64 @@ import (
 
 const createClass = `-- name: CreateClass :one
 INSERT INTO class (
-    instructorid,
-    reg_status,
-    start_time,
-    end_time,
-    description,
-    classtype,
-    locationid
+    instructorname,
+    starttime,
+    endtime,
+    name,
+    startdate,
+    enddate,
+    locationid,
+    cost,
+    day
 )
 VALUES
-    ($1, $2, $3,$4, $5, $6,$7) RETURNING id, instructorid, reg_status, start_time, end_time, description, classtype, locationid
+    ($1, $2, $3,$4, $5, $6,$7,$8,$9) RETURNING id, instructorname, regstatus, startdate, enddate, starttime, endtime, day, name, classtype, locationid, cost
 `
 
 type CreateClassParams struct {
-	Instructorid int64          `json:"instructorid"`
-	RegStatus    string `json:"reg_status"`
-	StartTime    time.Time      `json:"start_time"`
-	EndTime      time.Time      `json:"end_time"`
-	Description  string `json:"description"`
-	Classtype    string `json:"classtype"`
-	Locationid   int64          `json:"locationid"`
+	Instructorname string         `json:"instructorname"`
+	Starttime      time.Time      `json:"starttime"`
+	Endtime        time.Time      `json:"endtime"`
+	Name           string `json:"name"`
+	Startdate      time.Time      `json:"startdate"`
+	Enddate        time.Time      `json:"enddate"`
+	Locationid     int64          `json:"locationid"`
+	Cost           int32          `json:"cost"`
+	Day            string         `json:"day"`
 }
 
 func (q *Queries) CreateClass(ctx context.Context, arg CreateClassParams) (Class, error) {
 	row := q.db.QueryRowContext(ctx, createClass,
-		arg.Instructorid,
-		arg.RegStatus,
-		arg.StartTime,
-		arg.EndTime,
-		arg.Description,
-		arg.Classtype,
+		arg.Instructorname,
+		arg.Starttime,
+		arg.Endtime,
+		arg.Name,
+		arg.Startdate,
+		arg.Enddate,
 		arg.Locationid,
+		arg.Cost,
+		arg.Day,
 	)
 	var i Class
 	err := row.Scan(
 		&i.ID,
-		&i.Instructorid,
-		&i.RegStatus,
-		&i.StartTime,
-		&i.EndTime,
-		&i.Description,
+		&i.Instructorname,
+		&i.Regstatus,
+		&i.Startdate,
+		&i.Enddate,
+		&i.Starttime,
+		&i.Endtime,
+		&i.Day,
+		&i.Name,
 		&i.Classtype,
 		&i.Locationid,
+		&i.Cost,
 	)
 	return i, err
 }
 
 const getClass = `-- name: GetClass :one
-SELECT id, instructorid, reg_status, start_time, end_time, description, classtype, locationid FROM class
+SELECT id, instructorname, regstatus, startdate, enddate, starttime, endtime, day, name, classtype, locationid, cost FROM class
 WHERE id = $1 LIMIT 1
 `
 
@@ -68,13 +78,17 @@ func (q *Queries) GetClass(ctx context.Context, id int64) (Class, error) {
 	var i Class
 	err := row.Scan(
 		&i.ID,
-		&i.Instructorid,
-		&i.RegStatus,
-		&i.StartTime,
-		&i.EndTime,
-		&i.Description,
+		&i.Instructorname,
+		&i.Regstatus,
+		&i.Startdate,
+		&i.Enddate,
+		&i.Starttime,
+		&i.Endtime,
+		&i.Day,
+		&i.Name,
 		&i.Classtype,
 		&i.Locationid,
+		&i.Cost,
 	)
 	return i, err
 }

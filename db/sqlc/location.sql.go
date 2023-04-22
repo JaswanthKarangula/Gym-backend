@@ -37,6 +37,38 @@ func (q *Queries) CreateLocation(ctx context.Context, arg CreateLocationParams) 
 	return i, err
 }
 
+const getAllLocations = `-- name: GetAllLocations :many
+SELECT id, city, state, zipcode FROM location
+`
+
+func (q *Queries) GetAllLocations(ctx context.Context) ([]Location, error) {
+	rows, err := q.db.QueryContext(ctx, getAllLocations)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Location{}
+	for rows.Next() {
+		var i Location
+		if err := rows.Scan(
+			&i.ID,
+			&i.City,
+			&i.State,
+			&i.Zipcode,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getLocation = `-- name: GetLocation :one
 SELECT id, city, state, zipcode FROM location
 WHERE id = $1 LIMIT 1

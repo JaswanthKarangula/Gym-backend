@@ -50,6 +50,11 @@ func (*Context) ShouldBindQuery ¶
   "start_time": "2023-04-17T05:22:23.430004Z"
 }
 
+{
+"type": "employee"
+"object":Employee
+}
+
 
 
 

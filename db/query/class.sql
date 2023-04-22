@@ -1,15 +1,17 @@
 -- name: CreateClass :one
 INSERT INTO class (
-    instructorid,
-    reg_status,
-    start_time,
-    end_time,
-    description,
-    classtype,
-    locationid
+    instructorname,
+    starttime,
+    endtime,
+    name,
+    startdate,
+    enddate,
+    locationid,
+    cost,
+    day
 )
 VALUES
-    ($1, $2, $3,$4, $5, $6,$7) RETURNING *;
+    ($1, $2, $3,$4, $5, $6,$7,$8,$9) RETURNING *;
 
 
 -- name: GetClass :one

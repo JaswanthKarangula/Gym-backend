@@ -21,20 +21,22 @@ type getUserActivityRequest struct {
 }
 
 type userActivityResponse struct {
-	ID       int64     `json:"id"`
-	Start    time.Time `json:"start"`
-	End      time.Time `json:"end"`
-	Userid   int64     `json:"userid"`
-	Deviceid int64     `json:"deviceid"`
+	ID         int64     `json:"id"`
+	Start      time.Time `json:"start"`
+	End        time.Time `json:"end"`
+	Userid     int64     `json:"userid"`
+	Deviceid   int64     `json:"deviceid"`
+	Locationid int64     `json:"locationid"`
 }
 
 func newUserActivityResponse(activity db.Useractivity) userActivityResponse {
 	return userActivityResponse{
-		ID:       activity.ID,
-		Start:    activity.Start,
-		End:      activity.End,
-		Userid:   activity.Userid,
-		Deviceid: activity.Deviceid,
+		ID:         activity.ID,
+		Start:      activity.Start,
+		End:        activity.End,
+		Userid:     activity.Userid,
+		Deviceid:   activity.Deviceid,
+		Locationid: activity.Locationid,
 	}
 }
 

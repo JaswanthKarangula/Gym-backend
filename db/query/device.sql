@@ -8,6 +8,9 @@ VALUES
 SELECT * FROM device
 WHERE id = $1 LIMIT 1;
 
+-- name: GetAllDevices :many
+SELECT * FROM device;
+
 -- -- name: UpdateUser :one
 -- UPDATE users
 -- SET

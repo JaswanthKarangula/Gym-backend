@@ -12,6 +12,10 @@ INSERT INTO employee (
 SELECT * FROM employee
 WHERE name = $1 LIMIT 1;
 
+-- name: GetEmployeeFromEmail :one
+SELECT * FROM employee
+WHERE email = $1 LIMIT 1;
+
 -- -- name: UpdateUser :one
 -- UPDATE users
 -- SET

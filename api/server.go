@@ -73,6 +73,8 @@ func (server *Server) setupRouter() {
 	router.GET("/classCatalogue", server.getClassCatalogue)
 	router.POST("/classCatalogue", server.createClassCatalogue)
 
+	router.POST("/login", server.loginUser)
+
 	server.router = router
 }
 

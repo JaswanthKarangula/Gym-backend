@@ -10,14 +10,15 @@ import (
 )
 
 type createClassRequest struct {
-	Instructorid int64     `json:"instructorid" binding:"required"`
-	RegStatus    string    `json:"reg_status" binding:"required"`
-	StartTime    time.Time `json:"start_time" binding:"required"`
-	EndTime      time.Time `json:"end_time" binding:"required"`
-	Description  string    `json:"description" binding:"required"`
-	// weekly daily or monthly
-	Classtype  string `json:"classtype" binding:"required"`
-	Locationid int64  `json:"locationid" binding:"required"`
+	Instructorname string    `json:"instructorname" binding:"required"`
+	Startdate      time.Time `json:"startdate" binding:"required"`
+	Enddate        time.Time `json:"enddate" binding:"required"`
+	Starttime      time.Time `json:"starttime" binding:"required"`
+	Endtime        time.Time `json:"endtime" binding:"required"`
+	Day            string    `json:"day" binding:"required"`
+	Name           string    `json:"name" binding:"required"`
+	Locationid     int64     `json:"locationid" binding:"required"`
+	Cost           int32     `json:"cost" binding:"required"`
 }
 
 type getClassFromIDRequest struct {
@@ -29,27 +30,35 @@ type getClassFromNameRequest struct {
 }
 
 type classResponse struct {
-	ID           int64     `json:"id"`
-	Instructorid int64     `json:"instructorid"`
-	RegStatus    string    `json:"reg_status"`
-	StartTime    time.Time `json:"start_time"`
-	EndTime      time.Time `json:"end_time"`
-	Description  string    `json:"description"`
+	ID             int64     `json:"id"`
+	Instructorname string    `json:"instructorname"`
+	Regstatus      string    `json:"regstatus"`
+	Startdate      time.Time `json:"startdate"`
+	Enddate        time.Time `json:"enddate"`
+	Starttime      time.Time `json:"starttime"`
+	Endtime        time.Time `json:"endtime"`
+	Day            string    `json:"day"`
+	Name           string    `json:"name"`
 	// weekly daily or monthly
 	Classtype  string `json:"classtype"`
 	Locationid int64  `json:"locationid"`
+	Cost       int32  `json:"cost"`
 }
 
 func newClassResponse(class db.Class) classResponse {
 	return classResponse{
-		ID:           class.ID,
-		Instructorid: class.Instructorid,
-		RegStatus:    class.RegStatus,
-		EndTime:      class.EndTime,
-		Description:  class.Description,
-		Classtype:    class.Classtype,
-		Locationid:   class.Locationid,
-		StartTime:    class.StartTime,
+		ID:             class.ID,
+		Instructorname: class.Instructorname,
+		Regstatus:      class.Regstatus,
+		Endtime:        class.Endtime,
+		Starttime:      class.Starttime,
+		Name:           class.Name,
+		Classtype:      class.Classtype,
+		Locationid:     class.Locationid,
+		Startdate:      class.Startdate,
+		Enddate:        class.Enddate,
+		Day:            class.Day,
+		Cost:           class.Cost,
 	}
 }
 
@@ -75,13 +84,15 @@ func (server *Server) createClass(ctx *gin.Context) {
 	//}
 
 	arg := db.CreateClassParams{
-		Instructorid: req.Instructorid,
-		RegStatus:    req.RegStatus,
-		EndTime:      req.EndTime,
-		Description:  req.Description,
-		Classtype:    req.Classtype,
-		Locationid:   req.Locationid,
-		StartTime:    req.StartTime,
+		Instructorname: req.Instructorname,
+		Endtime:        req.Endtime,
+		Starttime:      req.Starttime,
+		Name:           req.Name,
+		Locationid:     req.Locationid,
+		Startdate:      req.Startdate,
+		Enddate:        req.Enddate,
+		Day:            req.Day,
+		Cost:           req.Cost,
 	}
 
 	class, err := server.store.CreateClass(ctx, arg)
