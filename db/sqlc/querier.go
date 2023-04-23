@@ -23,6 +23,7 @@ type Querier interface {
 	GetCheckinActivity(ctx context.Context, userid int64) ([]Checkinactivity, error)
 	GetClass(ctx context.Context, id int64) (Class, error)
 	GetClassEnrolment(ctx context.Context, courseid int64) ([]int64, error)
+	GetClassEnrolmentByWeek(ctx context.Context) ([]GetClassEnrolmentByWeekRow, error)
 	GetDevice(ctx context.Context, id int64) (Device, error)
 	GetEmployee(ctx context.Context, name string) (Employee, error)
 	GetEmployeeFromEmail(ctx context.Context, email string) (Employee, error)

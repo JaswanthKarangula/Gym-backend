@@ -41,7 +41,8 @@ CREATE TABLE "membership" (
 CREATE TABLE "classcatalogue" (
                                   "id" BIGSERIAL PRIMARY KEY,
                                   "userid" bigserial NOT NULL,
-                                  "courseid" bigserial NOT NULL
+                                  "courseid" bigserial NOT NULL,
+                                  "enrolmentdate" timestamptz DEFAULT (now())
 );
 
 CREATE TABLE "location" (

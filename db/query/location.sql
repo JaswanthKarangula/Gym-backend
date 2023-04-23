@@ -14,6 +14,7 @@ WHERE id = $1 LIMIT 1;
 -- name: GetAllLocations :many
 SELECT * FROM location;
 
+
 -- -- name: UpdateUser :one
 -- UPDATE users
 -- SET

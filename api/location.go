@@ -106,3 +106,22 @@ func (server *Server) getLocation(ctx *gin.Context) {
 	rsp := newLocationResponse(location)
 	ctx.JSON(http.StatusOK, rsp)
 }
+
+// CreateTags		godoc
+// @Summary			Get ALL Location From
+// @Description 	Get ALL locations data from Db.
+// @Produce 		application/json
+// @Tags 			location
+// @Success 		200 {object} []db.Location{}
+// @Router			/alllocations [get]
+func (server *Server) getAllLocations(ctx *gin.Context) {
+
+	locations, err := server.store.GetAllLocations(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	//rsp := newLocationResponse(location)
+	ctx.JSON(http.StatusOK, locations)
+}
