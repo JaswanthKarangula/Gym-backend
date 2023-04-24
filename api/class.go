@@ -73,15 +73,10 @@ func newClassResponse(class db.Class) classResponse {
 func (server *Server) createClass(ctx *gin.Context) {
 	var req createClassRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
+		fmt.Println("Invalidadata")
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-
-	//hashedPassword, err := util.HashPassword(req.Password)
-	//if err != nil {
-	//	ctx.JSON(http.StatusInternalServerError, errorResponse(err))
-	//	return
-	//}
 
 	arg := db.CreateClassParams{
 		Instructorname: req.Instructorname,

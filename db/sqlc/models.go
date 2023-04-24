@@ -21,15 +21,15 @@ type Checkinactivity struct {
 type Class struct {
 	ID             int64          `json:"id"`
 	Instructorname string         `json:"instructorname"`
-	Regstatus      sql.NullString `json:"regstatus"`
+	Regstatus      string `json:"regstatus"`
 	Startdate      time.Time      `json:"startdate"`
 	Enddate        time.Time      `json:"enddate"`
 	Starttime      time.Time      `json:"starttime"`
 	Endtime        time.Time      `json:"endtime"`
 	Day            string         `json:"day"`
-	Name           sql.NullString `json:"name"`
+	Name           string `json:"name"`
 	// weekly daily or monthly
-	Classtype  sql.NullString `json:"classtype"`
+	Classtype  string `json:"classtype"`
 	Locationid int64          `json:"locationid"`
 	Cost       int32          `json:"cost"`
 }

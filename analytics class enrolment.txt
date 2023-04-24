@@ -1,0 +1,70 @@
+Bar chart showing the number of classes offered by day of the week (Monday, Tuesday, etc.) and the number of attendees per class.
+
+Line graph showing the number of classes offered per week and the number of attendees each week, to track trends in attendance.
+
+Top attended classes:
+
+Most popular hour for taking classes on weekdays:
+
+Most popular hour for taking classes on weekends:
+
+Enrolment dashboard Queries based on location id:
+
+
+Bar chart showing the number of classes offered by day of the week (Monday, Tuesday, etc.) and the number of attendees per class:
+sql
+Copy code
+SELECT EXTRACT(ISODOW FROM c.startdate) AS day_of_week, COUNT(c.id) AS classes_offered, COUNT(cc.id) AS attendees_count
+FROM class AS c
+LEFT JOIN classcatalogue AS cc ON c.id = cc.courseid
+WHERE c.locationid = 1
+GROUP BY day_of_week
+ORDER BY day_of_week;
+Replace 1 with your desired location id in the WHERE clause.
+
+Line graph showing the number of classes offered per week and the number of attendees each week, to track trends in attendance:
+sql
+Copy code
+SELECT DATE_TRUNC('week', c.startdate) AS week_start, COUNT(c.id) AS classes_offered, COUNT(cc.id) AS attendees_count
+FROM class AS c
+LEFT JOIN classcatalogue AS cc ON c.id = cc.courseid
+WHERE c.locationid = 1
+GROUP BY week_start
+ORDER BY week_start;
+Replace 1 with your desired location id in the WHERE clause.
+
+Top attended classes:
+sql
+Copy code
+SELECT c.id, c.name, COUNT(cc.id) AS attendees_count
+FROM class AS c
+JOIN classcatalogue AS cc ON c.id = cc.courseid
+WHERE c.locationid = 1
+GROUP BY c.id, c.name
+ORDER BY attendees_count DESC;
+Replace 1 with your desired location id in the WHERE clause.
+
+Most popular hour for taking classes on weekdays:
+sql
+Copy code
+SELECT EXTRACT(HOUR FROM c.starttime) AS hour_of_day, COUNT(cc.id) AS enrollment_count
+FROM class AS c
+JOIN classcatalogue AS cc ON c.id = cc.courseid
+WHERE c.locationid = 1 AND EXTRACT(ISODOW FROM c.startdate) BETWEEN 1 AND 5
+GROUP BY hour_of_day
+ORDER BY enrollment_count DESC, hour_of_day
+LIMIT 1;
+Replace 1 with your desired location id in the WHERE clause.
+
+Most popular hour for taking classes on weekends:
+sql
+Copy code
+SELECT EXTRACT(HOUR FROM c.starttime) AS hour_of_day, COUNT(cc.id) AS enrollment_count
+FROM class AS c
+JOIN classcatalogue AS cc ON c.id = cc.courseid
+WHERE c.locationid = 1 AND EXTRACT(ISODOW FROM c.startdate) IN (6, 7)
+GROUP BY hour_of_day
+ORDER BY enrollment_count DESC, hour_of_day
+LIMIT 1;
+Replace 1 with your desired location id in the WHERE clause.
+

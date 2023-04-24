@@ -144,6 +144,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		Error:  validate,
 		Object: obj,
 	}
+	fmt.Println(rsp)
 
 	ctx.JSON(http.StatusOK, rsp)
 }

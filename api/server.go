@@ -3,6 +3,7 @@ package api
 import (
 	db "Gym-backend/db/sqlc"
 	"Gym-backend/util"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -44,6 +45,20 @@ func HealthCheck(c *gin.Context) {
 
 func (server *Server) setupRouter() {
 	router := gin.Default()
+
+	router.Use(cors.Default())
+
+	//router.Use(cors.New(cors.Config{
+	//	AllowOrigins:     []string{"https://foo.com"},
+	//	AllowMethods:     []string{"PUT", "PATCH"},
+	//	AllowHeaders:     []string{"Origin"},
+	//	ExposeHeaders:    []string{"Content-Length"},
+	//	AllowCredentials: true,
+	//	AllowOriginFunc: func(origin string) bool {
+	//		return true //origin == "https://github.com"
+	//	},
+	//	MaxAge: 12 * time.Hour,
+	//}))
 
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
