@@ -98,6 +98,68 @@ const docTemplate = `{
                 }
             }
         },
+        "/checkinRecord": {
+            "post": {
+                "description": "Create CheckinActivity data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "checkinActivity"
+                ],
+                "summary": "Create CheckinActivity",
+                "parameters": [
+                    {
+                        "description": "Create Checkin Activity Record",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createCheckinRecordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/checkoutRecord": {
+            "post": {
+                "description": "Create CheckinActivity data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "checkinActivity"
+                ],
+                "summary": "Create CheckinActivity",
+                "parameters": [
+                    {
+                        "description": "Create Checkin Activity Record",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createCheckinRecordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.checkinActivityResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/class": {
             "get": {
                 "description": "get Class data in Db.",
@@ -635,6 +697,29 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "locationid": {
+                    "type": "integer"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.createCheckinRecordRequest": {
+            "type": "object",
+            "required": [
+                "employeeid",
+                "locationid",
+                "type",
+                "userid"
+            ],
+            "properties": {
+                "employeeid": {
+                    "type": "integer"
+                },
+                "locationid": {
+                    "type": "integer"
+                },
+                "type": {
                     "type": "integer"
                 },
                 "userid": {

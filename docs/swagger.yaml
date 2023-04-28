@@ -70,6 +70,22 @@ definitions:
     - locationid
     - userid
     type: object
+  api.createCheckinRecordRequest:
+    properties:
+      employeeid:
+        type: integer
+      locationid:
+        type: integer
+      type:
+        type: integer
+      userid:
+        type: integer
+    required:
+    - employeeid
+    - locationid
+    - type
+    - userid
+    type: object
   api.createClassCatalogueRequest:
     properties:
       courseid:
@@ -319,6 +335,46 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/api.createCheckinActivityRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.checkinActivityResponse'
+      summary: Create CheckinActivity
+      tags:
+      - checkinActivity
+  /checkinRecord:
+    post:
+      description: Create CheckinActivity data in Db.
+      parameters:
+      - description: Create Checkin Activity Record
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.createCheckinRecordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Create CheckinActivity
+      tags:
+      - checkinActivity
+  /checkoutRecord:
+    post:
+      description: Create CheckinActivity data in Db.
+      parameters:
+      - description: Create Checkin Activity Record
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.createCheckinRecordRequest'
       produces:
       - application/json
       responses:

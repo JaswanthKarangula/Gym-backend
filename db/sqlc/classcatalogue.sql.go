@@ -11,7 +11,7 @@ import (
 
 const createClassCatalogue = `-- name: CreateClassCatalogue :one
 INSERT INTO classcatalogue (courseid,userid)
-VALUES ($1,$2) RETURNING id, userid, courseid
+VALUES ($1,$2) RETURNING id, userid, courseid, enrolmentdate
 `
 
 type CreateClassCatalogueParams struct {
@@ -22,7 +22,12 @@ type CreateClassCatalogueParams struct {
 func (q *Queries) CreateClassCatalogue(ctx context.Context, arg CreateClassCatalogueParams) (Classcatalogue, error) {
 	row := q.db.QueryRowContext(ctx, createClassCatalogue, arg.Courseid, arg.Userid)
 	var i Classcatalogue
-	err := row.Scan(&i.ID, &i.Userid, &i.Courseid)
+	err := row.Scan(
+		&i.ID,
+		&i.Userid,
+		&i.Courseid,
+		&i.Enrolmentdate,
+	)
 	return i, err
 }
 
@@ -55,7 +60,7 @@ func (q *Queries) GetClassEnrolment(ctx context.Context, courseid int64) ([]int6
 }
 
 const getUserClass = `-- name: GetUserClass :many
-SELECT id, userid, courseid FROM classcatalogue
+SELECT id, userid, courseid, enrolmentdate FROM classcatalogue
 WHERE userid = $1
 `
 
@@ -68,7 +73,12 @@ func (q *Queries) GetUserClass(ctx context.Context, userid int64) ([]Classcatalo
 	items := []Classcatalogue{}
 	for rows.Next() {
 		var i Classcatalogue
-		if err := rows.Scan(&i.ID, &i.Userid, &i.Courseid); err != nil {
+		if err := rows.Scan(
+			&i.ID,
+			&i.Userid,
+			&i.Courseid,
+			&i.Enrolmentdate,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

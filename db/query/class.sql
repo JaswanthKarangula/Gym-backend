@@ -1,22 +1,20 @@
 -- name: CreateClass :one
 INSERT INTO class (
     instructorname,
-    starttime,
-    endtime,
     name,
-    startdate,
-    enddate,
-    locationid,
     cost,
-    day
+    scheduleid
 )
 VALUES
-    ($1, $2, $3,$4, $5, $6,$7,$8,$9) RETURNING *;
+    ($1, $2, $3,$4) RETURNING *;
 
 
 -- name: GetClass :one
 SELECT * FROM class
 WHERE id = $1 LIMIT 1;
+
+-- name: GetAllClasses :one
+SELECT * FROM class;
 
 -- -- name: UpdateUser :one
 -- UPDATE users

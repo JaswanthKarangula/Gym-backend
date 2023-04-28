@@ -7,3 +7,10 @@ DROP TABLE public.membership CASCADE;
 DROP TABLE public.checkinactivity CASCADE;
 DROP TABLE public."class" CASCADE;
 DROP TABLE public.device CASCADE;
+DROP TABLE public.membershiptypes CASCADE;
+DROP TABLE public.schedule CASCADE;
+DROP TABLE public.checkinrecords CASCADE;
+DROP TABLE public.activityrecords CASCADE;
+
+
+

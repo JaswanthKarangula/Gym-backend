@@ -2,6 +2,7 @@ package api
 
 import (
 	db "Gym-backend/db/sqlc"
+	"Gym-backend/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
@@ -10,15 +11,15 @@ import (
 )
 
 type createClassRequest struct {
-	Instructorname string    `json:"instructorname" binding:"required"`
-	Startdate      time.Time `json:"startdate" binding:"required"`
-	Enddate        time.Time `json:"enddate" binding:"required"`
-	Starttime      time.Time `json:"starttime" binding:"required"`
-	Endtime        time.Time `json:"endtime" binding:"required"`
-	Day            string    `json:"day" binding:"required"`
-	Name           string    `json:"name" binding:"required"`
-	Locationid     int64     `json:"locationid" binding:"required"`
-	Cost           int32     `json:"cost" binding:"required"`
+	Instructorname string `json:"instructorname" binding:"required"`
+	Startdate      string `json:"startdate" binding:"required"`
+	Enddate        string `json:"enddate" binding:"required"`
+	Starttime      string `json:"starttime" binding:"required"`
+	Endtime        string `json:"endtime" binding:"required"`
+	Day            string `json:"day" binding:"required"`
+	Name           string `json:"name" binding:"required"`
+	Locationid     int64  `json:"locationid" binding:"required"`
+	Cost           int32  `json:"cost" binding:"required"`
 }
 
 type getClassFromIDRequest struct {
@@ -45,20 +46,20 @@ type classResponse struct {
 	Cost       int32  `json:"cost"`
 }
 
-func newClassResponse(class db.Class) classResponse {
+func newClassResponse(class db.Class, schedule db.Schedule) classResponse {
 	return classResponse{
 		ID:             class.ID,
 		Instructorname: class.Instructorname,
 		Regstatus:      class.Regstatus,
-		Endtime:        class.Endtime,
-		Starttime:      class.Starttime,
+		Endtime:        schedule.Endtime,
+		Starttime:      schedule.Starttime,
 		Name:           class.Name,
 		Classtype:      class.Classtype,
-		Locationid:     class.Locationid,
-		Startdate:      class.Startdate,
-		Enddate:        class.Enddate,
-		Day:            class.Day,
 		Cost:           class.Cost,
+		Day:            schedule.Day,
+		Enddate:        schedule.Enddate,
+		Startdate:      schedule.Startdate,
+		Locationid:     schedule.Locationid,
 	}
 }
 
@@ -78,19 +79,16 @@ func (server *Server) createClass(ctx *gin.Context) {
 		return
 	}
 
-	arg := db.CreateClassParams{
-		Instructorname: req.Instructorname,
-		Endtime:        req.Endtime,
-		Starttime:      req.Starttime,
-		Name:           req.Name,
-		Locationid:     req.Locationid,
-		Startdate:      req.Startdate,
-		Enddate:        req.Enddate,
-		Day:            req.Day,
-		Cost:           req.Cost,
+	arg := db.CreateScheduleParams{
+		Endtime:    service.GetFormatedTime(req.Endtime),
+		Starttime:  service.GetFormatedTime(req.Starttime),
+		Day:        req.Day,
+		Enddate:    service.GetFormatedDate(req.Enddate),
+		Startdate:  service.GetFormatedDate(req.Startdate),
+		Locationid: req.Locationid,
 	}
 
-	class, err := server.store.CreateClass(ctx, arg)
+	schedule, err := server.store.CreateSchedule(ctx, arg)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
@@ -103,7 +101,27 @@ func (server *Server) createClass(ctx *gin.Context) {
 		return
 	}
 
-	rsp := newClassResponse(class)
+	arg1 := db.CreateClassParams{
+		Instructorname: req.Instructorname,
+		Name:           req.Name,
+		Cost:           req.Cost,
+		Scheduleid:     schedule.ID,
+	}
+
+	class, err := server.store.CreateClass(ctx, arg1)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	rsp := newClassResponse(class, schedule)
 	ctx.JSON(http.StatusOK, rsp)
 }
 
@@ -132,6 +150,12 @@ func (server *Server) getClass(ctx *gin.Context) {
 		return
 	}
 
-	rsp := newClassResponse(class)
+	schedule, err := server.store.GetSchedule(ctx, class.Scheduleid)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	rsp := newClassResponse(class, schedule)
 	ctx.JSON(http.StatusOK, rsp)
 }

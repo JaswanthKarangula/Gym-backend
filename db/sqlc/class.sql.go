@@ -7,70 +7,67 @@ package db
 
 import (
 	"context"
-
-	"time"
 )
 
 const createClass = `-- name: CreateClass :one
 INSERT INTO class (
     instructorname,
-    starttime,
-    endtime,
     name,
-    startdate,
-    enddate,
-    locationid,
     cost,
-    day
+    scheduleid
 )
 VALUES
-    ($1, $2, $3,$4, $5, $6,$7,$8,$9) RETURNING id, instructorname, regstatus, startdate, enddate, starttime, endtime, day, name, classtype, locationid, cost
+    ($1, $2, $3,$4) RETURNING id, instructorname, regstatus, name, classtype, cost, scheduleid
 `
 
 type CreateClassParams struct {
 	Instructorname string         `json:"instructorname"`
-	Starttime      time.Time      `json:"starttime"`
-	Endtime        time.Time      `json:"endtime"`
 	Name           string `json:"name"`
-	Startdate      time.Time      `json:"startdate"`
-	Enddate        time.Time      `json:"enddate"`
-	Locationid     int64          `json:"locationid"`
 	Cost           int32          `json:"cost"`
-	Day            string         `json:"day"`
+	Scheduleid     int64          `json:"scheduleid"`
 }
 
 func (q *Queries) CreateClass(ctx context.Context, arg CreateClassParams) (Class, error) {
 	row := q.db.QueryRowContext(ctx, createClass,
 		arg.Instructorname,
-		arg.Starttime,
-		arg.Endtime,
 		arg.Name,
-		arg.Startdate,
-		arg.Enddate,
-		arg.Locationid,
 		arg.Cost,
-		arg.Day,
+		arg.Scheduleid,
 	)
 	var i Class
 	err := row.Scan(
 		&i.ID,
 		&i.Instructorname,
 		&i.Regstatus,
-		&i.Startdate,
-		&i.Enddate,
-		&i.Starttime,
-		&i.Endtime,
-		&i.Day,
 		&i.Name,
 		&i.Classtype,
-		&i.Locationid,
 		&i.Cost,
+		&i.Scheduleid,
+	)
+	return i, err
+}
+
+const getAllClasses = `-- name: GetAllClasses :one
+SELECT id, instructorname, regstatus, name, classtype, cost, scheduleid FROM class
+`
+
+func (q *Queries) GetAllClasses(ctx context.Context) (Class, error) {
+	row := q.db.QueryRowContext(ctx, getAllClasses)
+	var i Class
+	err := row.Scan(
+		&i.ID,
+		&i.Instructorname,
+		&i.Regstatus,
+		&i.Name,
+		&i.Classtype,
+		&i.Cost,
+		&i.Scheduleid,
 	)
 	return i, err
 }
 
 const getClass = `-- name: GetClass :one
-SELECT id, instructorname, regstatus, startdate, enddate, starttime, endtime, day, name, classtype, locationid, cost FROM class
+SELECT id, instructorname, regstatus, name, classtype, cost, scheduleid FROM class
 WHERE id = $1 LIMIT 1
 `
 
@@ -81,15 +78,10 @@ func (q *Queries) GetClass(ctx context.Context, id int64) (Class, error) {
 		&i.ID,
 		&i.Instructorname,
 		&i.Regstatus,
-		&i.Startdate,
-		&i.Enddate,
-		&i.Starttime,
-		&i.Endtime,
-		&i.Day,
 		&i.Name,
 		&i.Classtype,
-		&i.Locationid,
 		&i.Cost,
+		&i.Scheduleid,
 	)
 	return i, err
 }

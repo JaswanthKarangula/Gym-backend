@@ -20,6 +20,12 @@ type getUserActivityRequest struct {
 	Userid int64 `form:"userid" binding:"required"`
 }
 
+type createUserActivityRecordRequest struct {
+	Type       int32 `json:"type" binding:"required"`
+	Userid     int64 `json:"userid" binding:"required"`
+	Locationid int64 `json:"locationid" binding:"required"`
+}
+
 type userActivityResponse struct {
 	ID         int64     `json:"id"`
 	Start      time.Time `json:"start"`

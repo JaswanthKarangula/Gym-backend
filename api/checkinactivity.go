@@ -2,6 +2,7 @@ package api
 
 import (
 	db "Gym-backend/db/sqlc"
+	"Gym-backend/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
@@ -15,6 +16,13 @@ type createCheckinActivityRequest struct {
 	Userid     int64     `json:"userid" binding:"required"`
 	Employeeid int64     `json:"employeeid" binding:"required"`
 	Locationid int64     `json:"locationid" binding:"required"`
+}
+
+type createCheckinRecordRequest struct {
+	Type       int32 `json:"type" binding:"required"`
+	Userid     int64 `json:"userid" binding:"required"`
+	Employeeid int64 `json:"employeeid" binding:"required"`
+	Locationid int64 `json:"locationid" binding:"required"`
 }
 
 type getCheckinActivityRequest struct {
@@ -39,6 +47,82 @@ func newCheckinActivityResponse(activity db.Checkinactivity) checkinActivityResp
 		Employeeid: activity.Employeeid,
 		Locationid: activity.Locationid,
 	}
+}
+
+// CreateTags		godoc
+// @Summary			Create CheckinActivity
+// @Description 	Create CheckinActivity data in Db.
+// @Param 			device body createCheckinRecordRequest true "Create Checkin Activity Record"
+// @Produce 		application/json
+// @Tags 			checkinActivity
+// @Success 		200 {object} string
+// @Router			/checkinRecord [post]
+func (server *Server) createCheckinRecord(ctx *gin.Context) {
+	var req createCheckinRecordRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	arg := db.CreateCheckinRecordsParams{
+		Userid:     req.Userid,
+		Type:       req.Type,
+		Employeeid: req.Employeeid,
+		Locationid: req.Locationid,
+	}
+
+	_, err := server.store.CreateCheckinRecords(ctx, arg)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, "Checkin Recorder")
+}
+
+// CreateTags		godoc
+// @Summary			Create CheckinActivity
+// @Description 	Create CheckinActivity data in Db.
+// @Param 			device body createCheckinRecordRequest true "Create Checkin Activity Record"
+// @Produce 		application/json
+// @Tags 			checkinActivity
+// @Success 		200 {object} checkinActivityResponse{}
+// @Router			/checkoutRecord [post]
+func (server *Server) createCheckOutRecord(ctx *gin.Context) {
+	var req createCheckinRecordRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	arg := db.CreateCheckinRecordsParams{
+		Userid:     req.Userid,
+		Type:       req.Type,
+		Employeeid: req.Employeeid,
+		Locationid: req.Locationid,
+	}
+
+	activity, err := service.CreateCheckOutRecord(ctx, server.store, arg)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	rsp := newCheckinActivityResponse(activity)
+	ctx.JSON(http.StatusOK, rsp)
 }
 
 // CreateTags		godoc

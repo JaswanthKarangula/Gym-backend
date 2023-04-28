@@ -9,6 +9,14 @@ import (
 	"time"
 )
 
+type Activityrecord struct {
+	ID         int64     `json:"id"`
+	Userid     int64     `json:"userid"`
+	Type       int32     `json:"type"`
+	Time       time.Time `json:"time"`
+	Locationid int64     `json:"locationid"`
+}
+
 type Checkinactivity struct {
 	ID         int64     `json:"id"`
 	Checkin    time.Time `json:"checkin"`
@@ -18,26 +26,31 @@ type Checkinactivity struct {
 	Locationid int64     `json:"locationid"`
 }
 
+type Checkinrecord struct {
+	ID         int64     `json:"id"`
+	Userid     int64     `json:"userid"`
+	Type       int32     `json:"type"`
+	Time       time.Time `json:"time"`
+	Employeeid int64     `json:"employeeid"`
+	Locationid int64     `json:"locationid"`
+}
+
 type Class struct {
 	ID             int64          `json:"id"`
 	Instructorname string         `json:"instructorname"`
 	Regstatus      string `json:"regstatus"`
-	Startdate      time.Time      `json:"startdate"`
-	Enddate        time.Time      `json:"enddate"`
-	Starttime      time.Time      `json:"starttime"`
-	Endtime        time.Time      `json:"endtime"`
-	Day            string         `json:"day"`
 	Name           string `json:"name"`
 	// weekly daily or monthly
 	Classtype  string `json:"classtype"`
-	Locationid int64          `json:"locationid"`
 	Cost       int32          `json:"cost"`
+	Scheduleid int64          `json:"scheduleid"`
 }
 
 type Classcatalogue struct {
-	ID       int64 `json:"id"`
-	Userid   int64 `json:"userid"`
-	Courseid int64 `json:"courseid"`
+	ID            int64        `json:"id"`
+	Userid        int64        `json:"userid"`
+	Courseid      int64        `json:"courseid"`
+	Enrolmentdate sql.NullTime `json:"enrolmentdate"`
 }
 
 type Device struct {
@@ -64,11 +77,26 @@ type Location struct {
 }
 
 type Membership struct {
-	ID     int64 `json:"id"`
-	Userid int64 `json:"userid"`
-	// 0 is admin 1 is member 2 is non member
-	MemberType int32        `json:"member_type"`
-	ExpiryDate sql.NullTime `json:"expiry_date"`
+	Membershipid int64     `json:"membershipid"`
+	Userid       int64     `json:"userid"`
+	Startdate    time.Time `json:"startdate"`
+	Expirydate   time.Time `json:"expirydate"`
+}
+
+type Membershiptype struct {
+	ID         int64 `json:"id"`
+	MemberType int32 `json:"member_type"`
+	Cost       int32 `json:"cost"`
+}
+
+type Schedule struct {
+	ID         int64     `json:"id"`
+	Locationid int64     `json:"locationid"`
+	Startdate  time.Time `json:"startdate"`
+	Enddate    time.Time `json:"enddate"`
+	Starttime  time.Time `json:"starttime"`
+	Endtime    time.Time `json:"endtime"`
+	Day        string    `json:"day"`
 }
 
 type User struct {

@@ -7,37 +7,37 @@ package db
 
 import (
 	"context"
-	"database/sql"
+	"time"
 )
 
 const createMembership = `-- name: CreateMembership :one
 INSERT INTO membership (
-    userid ,member_type,expiry_date
+    userid ,membershipid,expirydate
 ) VALUES (
              $1, $2, $3
-         ) RETURNING id, userid, member_type, expiry_date
+         ) RETURNING membershipid, userid, startdate, expirydate
 `
 
 type CreateMembershipParams struct {
-	Userid     int64        `json:"userid"`
-	MemberType int32        `json:"member_type"`
-	ExpiryDate sql.NullTime `json:"expiry_date"`
+	Userid       int64     `json:"userid"`
+	Membershipid int64     `json:"membershipid"`
+	Expirydate   time.Time `json:"expirydate"`
 }
 
 func (q *Queries) CreateMembership(ctx context.Context, arg CreateMembershipParams) (Membership, error) {
-	row := q.db.QueryRowContext(ctx, createMembership, arg.Userid, arg.MemberType, arg.ExpiryDate)
+	row := q.db.QueryRowContext(ctx, createMembership, arg.Userid, arg.Membershipid, arg.Expirydate)
 	var i Membership
 	err := row.Scan(
-		&i.ID,
+		&i.Membershipid,
 		&i.Userid,
-		&i.MemberType,
-		&i.ExpiryDate,
+		&i.Startdate,
+		&i.Expirydate,
 	)
 	return i, err
 }
 
 const getMembership = `-- name: GetMembership :one
-SELECT id, userid, member_type, expiry_date FROM membership
+SELECT membershipid, userid, startdate, expirydate FROM membership
 WHERE userid = $1 LIMIT 1
 `
 
@@ -45,10 +45,10 @@ func (q *Queries) GetMembership(ctx context.Context, userid int64) (Membership, 
 	row := q.db.QueryRowContext(ctx, getMembership, userid)
 	var i Membership
 	err := row.Scan(
-		&i.ID,
+		&i.Membershipid,
 		&i.Userid,
-		&i.MemberType,
-		&i.ExpiryDate,
+		&i.Startdate,
+		&i.Expirydate,
 	)
 	return i, err
 }
