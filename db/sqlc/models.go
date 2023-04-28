@@ -15,6 +15,7 @@ type Activityrecord struct {
 	Type       int32     `json:"type"`
 	Time       time.Time `json:"time"`
 	Locationid int64     `json:"locationid"`
+	Deviceid   int64     `json:"deviceid"`
 }
 
 type Checkinactivity struct {

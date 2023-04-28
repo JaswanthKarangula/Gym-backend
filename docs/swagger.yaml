@@ -167,6 +167,22 @@ definitions:
     - state
     - zipcode
     type: object
+  api.createUserActivityRecordRequest:
+    properties:
+      deviceid:
+        type: integer
+      locationid:
+        type: integer
+      type:
+        type: integer
+      userid:
+        type: integer
+    required:
+    - deviceid
+    - locationid
+    - type
+    - userid
+    type: object
   api.createUserActivityRequest:
     properties:
       deviceid:
@@ -535,6 +551,26 @@ paths:
       summary: Create Employee
       tags:
       - employee
+  /endActivity:
+    post:
+      description: Create CheckinActivity data in Db.
+      parameters:
+      - description: Create Checkin Activity Record
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.createUserActivityRecordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.userActivityResponse'
+      summary: Create CheckinActivity
+      tags:
+      - userActivity
   /location:
     get:
       description: Get User data from Db.
@@ -592,6 +628,26 @@ paths:
       summary: Validate login Request
       tags:
       - auth
+  /startActivity:
+    post:
+      description: Create CheckinActivity data in Db.
+      parameters:
+      - description: Create Checkin Activity Record
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.createUserActivityRecordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Create CheckinActivity
+      tags:
+      - userActivity
   /userActivity:
     get:
       description: Get User Activity data from Db.

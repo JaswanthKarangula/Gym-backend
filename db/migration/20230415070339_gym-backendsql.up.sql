@@ -85,7 +85,8 @@ CREATE TABLE "activityrecords" (
                                    "userid" bigserial NOT NULL,
                                    "type" int NOT NULL DEFAULT 1,
                                    "time" timestamptz NOT NULL DEFAULT (now()),
-                                   "locationid" bigserial NOT NULL
+                                   "locationid" bigserial NOT NULL,
+                                   "deviceid" bigserial NOT NULL
 );
 
 CREATE TABLE "useractivity" (

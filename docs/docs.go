@@ -391,6 +391,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/endActivity": {
+            "post": {
+                "description": "Create CheckinActivity data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userActivity"
+                ],
+                "summary": "Create CheckinActivity",
+                "parameters": [
+                    {
+                        "description": "Create Checkin Activity Record",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createUserActivityRecordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.userActivityResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/location": {
             "get": {
                 "description": "Get User data from Db.",
@@ -474,6 +505,37 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/api.loginResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/startActivity": {
+            "post": {
+                "description": "Create CheckinActivity data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userActivity"
+                ],
+                "summary": "Create CheckinActivity",
+                "parameters": [
+                    {
+                        "description": "Create Checkin Activity Record",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createUserActivityRecordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -840,6 +902,29 @@ const docTemplate = `{
                 },
                 "zipcode": {
                     "type": "string"
+                }
+            }
+        },
+        "api.createUserActivityRecordRequest": {
+            "type": "object",
+            "required": [
+                "deviceid",
+                "locationid",
+                "type",
+                "userid"
+            ],
+            "properties": {
+                "deviceid": {
+                    "type": "integer"
+                },
+                "locationid": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "userid": {
+                    "type": "integer"
                 }
             }
         },

@@ -2,6 +2,7 @@ package api
 
 import (
 	db "Gym-backend/db/sqlc"
+	"Gym-backend/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
@@ -24,6 +25,7 @@ type createUserActivityRecordRequest struct {
 	Type       int32 `json:"type" binding:"required"`
 	Userid     int64 `json:"userid" binding:"required"`
 	Locationid int64 `json:"locationid" binding:"required"`
+	Deviceid   int64 `json:"deviceid" binding:"required"`
 }
 
 type userActivityResponse struct {
@@ -44,6 +46,81 @@ func newUserActivityResponse(activity db.Useractivity) userActivityResponse {
 		Deviceid:   activity.Deviceid,
 		Locationid: activity.Locationid,
 	}
+}
+
+// CreateTags		godoc
+// @Summary			Create CheckinActivity
+// @Description 	Create CheckinActivity data in Db.
+// @Param 			device body createUserActivityRecordRequest true "Create Checkin Activity Record"
+// @Produce 		application/json
+// @Tags 			userActivity
+// @Success 		200 {object} string
+// @Router			/startActivity [post]
+func (server *Server) createStartActicityRecord(ctx *gin.Context) {
+	var req createUserActivityRecordRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	arg := db.CreateActivityRecordsParams{
+		Userid:     req.Userid,
+		Type:       req.Type,
+		Locationid: req.Locationid,
+	}
+
+	_, err := server.store.CreateActivityRecords(ctx, arg)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, "Start Activity Recorded")
+}
+
+// CreateTags		godoc
+// @Summary			Create CheckinActivity
+// @Description 	Create CheckinActivity data in Db.
+// @Param 			device body createUserActivityRecordRequest true "Create Checkin Activity Record"
+// @Produce 		application/json
+// @Tags 			userActivity
+// @Success 		200 {object} userActivityResponse{}
+// @Router			/endActivity [post]
+func (server *Server) createEndActivityRecord(ctx *gin.Context) {
+	var req createUserActivityRecordRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	arg := db.CreateActivityRecordsParams{
+		Userid:     req.Userid,
+		Type:       req.Type,
+		Locationid: req.Locationid,
+		Deviceid:   req.Deviceid,
+	}
+
+	activity, err := service.CreateEndActivityRecord(ctx, server.store, arg)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	rsp := newUserActivityResponse(activity)
+	ctx.JSON(http.StatusOK, rsp)
 }
 
 // CreateTags		godoc

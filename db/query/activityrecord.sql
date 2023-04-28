@@ -1,8 +1,8 @@
 -- name: CreateActivityRecords :one
 insert INTO activityrecords
-(type,userid,locationid )
+(type,userid,locationid,deviceid )
 VALUES
-    ($1,$2,$3) RETURNING *;
+    ($1,$2,$3,$4) RETURNING *;
 
 
 -- name: GetLatestActivityRecord :one

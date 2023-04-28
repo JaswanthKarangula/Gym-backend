@@ -79,6 +79,8 @@ func (server *Server) setupRouter() {
 
 	router.GET("/userActivity", server.getUserActivity)
 	router.POST("/userActivity", server.createUserActivity)
+	router.POST("/startActivity", server.createStartActicityRecord)
+	router.POST("/endActivity", server.createEndActivityRecord)
 
 	router.GET("/checkinActivity", server.getCheckinActivity)
 	router.POST("/checkinActivity", server.createCheckinActivity)
