@@ -415,6 +415,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/classRevenueGeneratedByLocation": {
+            "get": {
+                "description": "get ClassRevenueGenerateByLocation data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "revenueanalytics"
+                ],
+                "summary": "get ClassRevenueGenerateByLocation",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetClassRevenueGenerateByLocationRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/classesOfferedAndAttendes": {
             "get": {
                 "description": "get ClassesOfferedAndAttendees data in Db.",
@@ -774,6 +797,26 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/db.GetMostPopularHourForClassesOnWeekendsRow"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/revenueGenerateByMemberships": {
+            "get": {
+                "description": "get RevenueGenerateByMemberships data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "revenueanalytics"
+                ],
+                "summary": "get RevenueGenerateByMemberships",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
                         }
                     }
                 }
@@ -1489,6 +1532,17 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "visits": {
+                    "type": "integer"
+                }
+            }
+        },
+        "db.GetClassRevenueGenerateByLocationRow": {
+            "type": "object",
+            "properties": {
+                "location_id": {
+                    "type": "integer"
+                },
+                "revenue": {
                     "type": "integer"
                 }
             }

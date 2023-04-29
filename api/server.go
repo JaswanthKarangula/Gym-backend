@@ -111,6 +111,10 @@ func (server *Server) setupRouter() {
 	router.GET("/busiestTimeByHourAndDayOfWeek", server.getBusiestTimeByHourAndDayOfWeek)
 	router.GET("/hoursSpentInGymByDay", server.getHoursSpentInGymByDay)
 
+	//revenue analytics
+	router.GET("/revenueGenerateByMemberships", server.getRevenueGenerateByMemberships)
+	router.GET("/classRevenueGeneratedByLocation", server.getClassRevenueGenerateByLocation)
+
 	server.router = router
 }
 
