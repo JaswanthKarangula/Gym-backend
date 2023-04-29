@@ -39,10 +39,10 @@ type Checkinrecord struct {
 type Class struct {
 	ID             int64          `json:"id"`
 	Instructorname string         `json:"instructorname"`
-	Regstatus      string `json:"regstatus"`
-	Name           string `json:"name"`
+	Regstatus      sql.NullString `json:"regstatus"`
+	Name           sql.NullString `json:"name"`
 	// weekly daily or monthly
-	Classtype  string `json:"classtype"`
+	Classtype  sql.NullString `json:"classtype"`
 	Cost       int32          `json:"cost"`
 	Scheduleid int64          `json:"scheduleid"`
 }

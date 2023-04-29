@@ -16,6 +16,14 @@ type createUserRequest struct {
 	Email    string `json:"email" binding:"required,email"`
 }
 
+type createNewUserRequest struct {
+	Username   string `json:"username" binding:"required,alphanum"`
+	Password   string `json:"password" binding:"required,min=6"`
+	Email      string `json:"email" binding:"required,email"`
+	Membership int64  `json:"membership" binding:"required"`
+	Istrail    *bool  `json:"istrail" binding:"required"`
+}
+
 type getUserFromIDRequest struct {
 	UserId int64 `form:"userid" binding:"required"`
 }
@@ -36,6 +44,71 @@ func newUserResponse(user db.User) userResponse {
 		Email:     user.Email,
 		CreatedAt: user.CreatedAt,
 	}
+}
+
+// CreateTags		godoc
+// @Summary			Create User
+// @Description 	Create User data in Db.
+// @Param 			users body createNewUserRequest true "Create user"
+// @Produce 		application/json
+// @Tags 			user
+// @Success 		200 {object} userResponse{}
+// @Router			/usersV2 [post]
+func (server *Server) createUserV2(ctx *gin.Context) {
+	var req createNewUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		fmt.Println("Invalid Data")
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	//hashedPassword, err := util.HashPassword(req.Password)
+	//if err != nil {
+	//	ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+	//	return
+	//}
+
+	arg := db.CreateUserParams{
+		Name:           req.Username,
+		Hashedpassword: req.Password,
+		Email:          req.Email,
+	}
+
+	user, err := server.store.CreateUser(ctx, arg)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	membershipargs := db.CreateMembershipParams{
+		Membershipid: req.Membership,
+		Userid:       user.ID,
+		Expirydate:   time.Now().AddDate(0, int(req.Membership), 0),
+	}
+
+	_, err = server.store.CreateMembership(ctx, membershipargs)
+
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	rsp := newUserResponse(user)
+	ctx.JSON(http.StatusOK, rsp)
 }
 
 // CreateTags		godoc

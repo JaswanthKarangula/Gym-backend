@@ -66,6 +66,7 @@ func (server *Server) setupRouter() {
 
 	router.GET("/users", server.getUser)
 	router.POST("/users", server.createUser)
+	router.POST("/usersV2", server.createUserV2)
 
 	router.GET("/employee", server.getEmployee)
 	router.POST("/employee", server.createEmployee)

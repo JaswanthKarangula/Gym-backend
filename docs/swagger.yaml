@@ -167,6 +167,25 @@ definitions:
     - state
     - zipcode
     type: object
+  api.createNewUserRequest:
+    properties:
+      email:
+        type: string
+      istrail:
+        type: boolean
+      membership:
+        type: integer
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - membership
+    - password
+    - username
+    type: object
   api.createUserActivityRecordRequest:
     properties:
       deviceid:
@@ -714,6 +733,26 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/api.createUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.userResponse'
+      summary: Create User
+      tags:
+      - user
+  /usersV2:
+    post:
+      description: Create User data in Db.
+      parameters:
+      - description: Create user
+        in: body
+        name: users
+        required: true
+        schema:
+          $ref: '#/definitions/api.createNewUserRequest'
       produces:
       - application/json
       responses:

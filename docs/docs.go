@@ -657,6 +657,37 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/usersV2": {
+            "post": {
+                "description": "Create User data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create User",
+                "parameters": [
+                    {
+                        "description": "Create user",
+                        "name": "users",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createNewUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.userResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -901,6 +932,33 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "zipcode": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.createNewUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "membership",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "istrail": {
+                    "type": "boolean"
+                },
+                "membership": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "username": {
                     "type": "string"
                 }
             }
