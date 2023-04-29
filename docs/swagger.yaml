@@ -384,11 +384,34 @@ definitions:
       day:
         type: string
     type: object
+  db.GetDailyNewMemberEnrolmentsRow:
+    properties:
+      day:
+        type: integer
+      new_members:
+        type: integer
+    type: object
   db.GetHoursSpentInGymByDayRow:
     properties:
       day:
         type: string
       hours_spent:
+        type: integer
+    type: object
+  db.GetKMostFrequentMembersRow:
+    properties:
+      name:
+        type: string
+      total_visits:
+        type: integer
+      userid:
+        type: integer
+    type: object
+  db.GetMembershipCountsByTypeRow:
+    properties:
+      member_type:
+        type: integer
+      total_members:
         type: integer
     type: object
   db.GetMostPopularHourForClassesOnWeekdaysRow:
@@ -738,6 +761,21 @@ paths:
       summary: get ClassesOfferedAndAttendees
       tags:
       - enrolmentanalytics
+  /dailyNewMemberEnrolments:
+    get:
+      description: get GetDailyNewMemberEnrolments data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetDailyNewMemberEnrolmentsRow'
+            type: array
+      summary: get GetDailyNewMemberEnrolments
+      tags:
+      - memberretentionanalytics
   /device:
     get:
       description: Get Device data from Db.
@@ -847,6 +885,21 @@ paths:
       summary: get ClassesOfferedAndAttendees
       tags:
       - clubusageanalytics
+  /kMostFrequentMembers:
+    get:
+      description: get GetKMostFrequentMembers data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetKMostFrequentMembersRow'
+            type: array
+      summary: get GetKMostFrequentMembers
+      tags:
+      - memberretentionanalytics
   /location:
     get:
       description: Get User data from Db.
@@ -904,6 +957,21 @@ paths:
       summary: Validate login Request
       tags:
       - auth
+  /membershipCountsByType:
+    get:
+      description: get GetMembershipCountsByType data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetMembershipCountsByTypeRow'
+            type: array
+      summary: get GetMembershipCountsByType
+      tags:
+      - memberretentionanalytics
   /mostPopularHourForClassesOnWeekdays:
     get:
       description: get MostPopularHourForClassesOnWeekdays data in Db.

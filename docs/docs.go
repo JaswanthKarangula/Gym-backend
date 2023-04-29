@@ -500,6 +500,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/dailyNewMemberEnrolments": {
+            "get": {
+                "description": "get GetDailyNewMemberEnrolments data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "memberretentionanalytics"
+                ],
+                "summary": "get GetDailyNewMemberEnrolments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetDailyNewMemberEnrolmentsRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/device": {
             "get": {
                 "description": "Get Device data from Db.",
@@ -668,6 +691,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/kMostFrequentMembers": {
+            "get": {
+                "description": "get GetKMostFrequentMembers data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "memberretentionanalytics"
+                ],
+                "summary": "get GetKMostFrequentMembers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetKMostFrequentMembersRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/location": {
             "get": {
                 "description": "Get User data from Db.",
@@ -751,6 +797,29 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/api.loginResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/membershipCountsByType": {
+            "get": {
+                "description": "get GetMembershipCountsByType data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "memberretentionanalytics"
+                ],
+                "summary": "get GetMembershipCountsByType",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetMembershipCountsByTypeRow"
+                            }
                         }
                     }
                 }
@@ -1575,6 +1644,17 @@ const docTemplate = `{
                 }
             }
         },
+        "db.GetDailyNewMemberEnrolmentsRow": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "new_members": {
+                    "type": "integer"
+                }
+            }
+        },
         "db.GetHoursSpentInGymByDayRow": {
             "type": "object",
             "properties": {
@@ -1582,6 +1662,31 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "hours_spent": {
+                    "type": "integer"
+                }
+            }
+        },
+        "db.GetKMostFrequentMembersRow": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "total_visits": {
+                    "type": "integer"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "db.GetMembershipCountsByTypeRow": {
+            "type": "object",
+            "properties": {
+                "member_type": {
+                    "type": "integer"
+                },
+                "total_members": {
                     "type": "integer"
                 }
             }

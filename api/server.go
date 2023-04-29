@@ -115,6 +115,11 @@ func (server *Server) setupRouter() {
 	router.GET("/revenueGenerateByMemberships", server.getRevenueGenerateByMemberships)
 	router.GET("/classRevenueGeneratedByLocation", server.getClassRevenueGenerateByLocation)
 
+	//member retention  analytics
+	router.GET("/dailyNewMemberEnrolments", server.getDailyNewMemberEnrolments)
+	router.GET("/kMostFrequentMembers", server.getKMostFrequentMembers)
+	router.GET("/membershipCountsByType", server.getMembershipCountsByType)
+
 	server.router = router
 }
 
