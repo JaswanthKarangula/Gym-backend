@@ -15,7 +15,7 @@ type getOnLocationIdRequest struct {
 // @Description 	get ClassesOfferedAndAttendees data in Db.
 // @Param 			ByLocation query getOnLocationIdRequest true "get ClassesOfferedAndAttendeesRequest"
 // @Produce 		application/json
-// @Tags 			analytics
+// @Tags 			enrolmentanalytics
 // @Success 		200 {object} []db.GetClassesOfferedAndAttendeesRow{}
 // @Router			/classesOfferedAndAttendes [get]
 func (server *Server) getClassesOfferedAndAttendees(ctx *gin.Context) {
@@ -42,7 +42,7 @@ func (server *Server) getClassesOfferedAndAttendees(ctx *gin.Context) {
 // @Summary			get AllClassesOfferedAndAttendees
 // @Description 	get AllClassesOfferedAndAttendees data in Db.
 // @Produce 		application/json
-// @Tags 			analytics
+// @Tags 			enrolmentanalytics
 // @Success 		200 {object} []db.GetAllClassesOfferedAndAttendeesRow{}
 // @Router			/allClassesOfferedAndAttendes [get]
 func (server *Server) getAllClassesOfferedAndAttendees(ctx *gin.Context) {
@@ -61,7 +61,7 @@ func (server *Server) getAllClassesOfferedAndAttendees(ctx *gin.Context) {
 // @Description 	get ClassesOfferedAndAttendees data in Db.
 // @Param 			ByLocation query getOnLocationIdRequest true "get ClassesOfferedAndAttendeesRequest"
 // @Produce 		application/json
-// @Tags 			analytics
+// @Tags 			enrolmentanalytics
 // @Success 		200 {object} []db.GetClassesOfferedAndAttendeesPerWeekRow{}
 // @Router			/classesOfferedAndAttendesPerWeek [get]
 func (server *Server) getClassesOfferedAndAttendeesPerWeek(ctx *gin.Context) {
@@ -88,7 +88,7 @@ func (server *Server) getClassesOfferedAndAttendeesPerWeek(ctx *gin.Context) {
 // @Summary			get AllClassesOfferedAndAttendeesPerWeek
 // @Description 	get AllClassesOfferedAndAttendeesPerWeek data in Db.
 // @Produce 		application/json
-// @Tags 			analytics
+// @Tags 			enrolmentanalytics
 // @Success 		200 {object} []db.GetAllClassesOfferedAndAttendeesPerWeekRow{}
 // @Router			/allClassesOfferedAndAttendesPerWeek [get]
 func (server *Server) getAllClassesOfferedAndAttendeesPerWeek(ctx *gin.Context) {
@@ -107,7 +107,7 @@ func (server *Server) getAllClassesOfferedAndAttendeesPerWeek(ctx *gin.Context) 
 // @Summary			get AllTopAttendedClass
 // @Description 	get AllTopAttendedClass data in Db.
 // @Produce 		application/json
-// @Tags 			analytics
+// @Tags 			enrolmentanalytics
 // @Success 		200 {object} []db.GetAllTopAttendedClassRow{}
 // @Router			/allTopAttendedClass [get]
 func (server *Server) getAllTopAttendedClass(ctx *gin.Context) {
@@ -125,7 +125,7 @@ func (server *Server) getAllTopAttendedClass(ctx *gin.Context) {
 // @Summary			get MostPopularHourForClassesOnWeekdays
 // @Description 	get MostPopularHourForClassesOnWeekdays data in Db.
 // @Produce 		application/json
-// @Tags 			analytics
+// @Tags 			enrolmentanalytics
 // @Success 		200 {object} []db.GetMostPopularHourForClassesOnWeekdaysRow{}
 // @Router			/mostPopularHourForClassesOnWeekdays [get]
 func (server *Server) getMostPopularHourForClassesOnWeekdays(ctx *gin.Context) {
@@ -143,7 +143,7 @@ func (server *Server) getMostPopularHourForClassesOnWeekdays(ctx *gin.Context) {
 // @Summary			get MostPopularHourForClassesOnWeekends
 // @Description 	get MostPopularHourForClassesOnWeekends data in Db.
 // @Produce 		application/json
-// @Tags 			analytics
+// @Tags 			enrolmentAnalytics
 // @Success 		200 {object} []db.GetMostPopularHourForClassesOnWeekendsRow{}
 // @Router			/mostPopularHourForClassesOnWeekends [get]
 func (server *Server) getMostPopularHourForClassesOnWeekends(ctx *gin.Context) {

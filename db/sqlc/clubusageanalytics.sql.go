@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"time"
 )
 
 const getAverageVisitorsPerHourWeekdays = `-- name: GetAverageVisitorsPerHourWeekdays :many
@@ -148,7 +149,7 @@ ORDER BY
 `
 
 type GetHoursSpentInGymByDayRow struct {
-	Day        int64 `json:"day"`
+	Day        time.Time `json:"day"`
 	HoursSpent int64 `json:"hours_spent"`
 }
 

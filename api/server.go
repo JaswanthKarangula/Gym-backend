@@ -96,15 +96,21 @@ func (server *Server) setupRouter() {
 
 	router.POST("/login", server.loginUser)
 
-	// analytics
+	// enrolment analytics
 	router.GET("/classesOfferedAndAttendes", server.getClassesOfferedAndAttendees)
 	router.GET("/allClassesOfferedAndAttendes", server.getAllClassesOfferedAndAttendees)
 	router.GET("/allClassesOfferedAndAttendesPerWeek", server.getAllClassesOfferedAndAttendeesPerWeek)
 	router.GET("/allTopAttendedClass", server.getAllTopAttendedClass)
 	router.GET("/classesOfferedAndAttendesPerWeek", server.getClassesOfferedAndAttendeesPerWeek)
-
 	router.GET("/mostPopularHourForClassesOnWeekdays", server.getMostPopularHourForClassesOnWeekdays)
 	router.GET("/mostPopularHourForClassesOnWeekends", server.getMostPopularHourForClassesOnWeekends)
+
+	//clubusage analytics
+	router.GET("/averageVisitorsPerHourWeekdays", server.getAverageVisitorsPerHourWeekdays)
+	router.GET("/averageVisitorsPerHourWeekends", server.getAverageVisitorsPerHourWeekends)
+	router.GET("/busiestTimeByHourAndDayOfWeek", server.getBusiestTimeByHourAndDayOfWeek)
+	router.GET("/hoursSpentInGymByDay", server.getHoursSpentInGymByDay)
+
 	server.router = router
 }
 

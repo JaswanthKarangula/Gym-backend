@@ -336,6 +336,29 @@ definitions:
       class_name:
         type: string
     type: object
+  db.GetAverageVisitorsPerHourWeekdaysRow:
+    properties:
+      avg_visitors:
+        type: integer
+      hour:
+        type: number
+    type: object
+  db.GetAverageVisitorsPerHourWeekendsRow:
+    properties:
+      avg_visitors:
+        type: integer
+      hour:
+        type: number
+    type: object
+  db.GetBusiestTimeByHourAndDayOfWeekRow:
+    properties:
+      day_of_week:
+        type: number
+      hour:
+        type: number
+      visits:
+        type: integer
+    type: object
   db.GetClassesOfferedAndAttendeesPerWeekRow:
     properties:
       attendees:
@@ -353,6 +376,13 @@ definitions:
         type: integer
       day:
         type: string
+    type: object
+  db.GetHoursSpentInGymByDayRow:
+    properties:
+      day:
+        type: string
+      hours_spent:
+        type: integer
     type: object
   db.GetMostPopularHourForClassesOnWeekdaysRow:
     properties:
@@ -400,7 +430,7 @@ paths:
             type: array
       summary: get AllClassesOfferedAndAttendees
       tags:
-      - analytics
+      - enrolmentanalytics
   /allClassesOfferedAndAttendesPerWeek:
     get:
       description: get AllClassesOfferedAndAttendeesPerWeek data in Db.
@@ -415,7 +445,7 @@ paths:
             type: array
       summary: get AllClassesOfferedAndAttendeesPerWeek
       tags:
-      - analytics
+      - enrolmentanalytics
   /allTopAttendedClass:
     get:
       description: get AllTopAttendedClass data in Db.
@@ -430,7 +460,7 @@ paths:
             type: array
       summary: get AllTopAttendedClass
       tags:
-      - analytics
+      - enrolmentanalytics
   /alllocations:
     get:
       description: Get ALL locations data from Db.
@@ -446,6 +476,51 @@ paths:
       summary: Get ALL Location From
       tags:
       - location
+  /averageVisitorsPerHourWeekdays:
+    get:
+      description: get AverageVisitorsPerHourWeekdays data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetAverageVisitorsPerHourWeekdaysRow'
+            type: array
+      summary: get AverageVisitorsPerHourWeekdays
+      tags:
+      - clubusageanalytics
+  /averageVisitorsPerHourWeekends:
+    get:
+      description: get AverageVisitorsPerHourWeekends data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetAverageVisitorsPerHourWeekendsRow'
+            type: array
+      summary: get AverageVisitorsPerHourWeekends
+      tags:
+      - clubusageanalytics
+  /busiestTimeByHourAndDayOfWeek:
+    get:
+      description: get BusiestTimeByHourAndDayOfWeek data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetBusiestTimeByHourAndDayOfWeekRow'
+            type: array
+      summary: get BusiestTimeByHourAndDayOfWeek
+      tags:
+      - clubusageanalytics
   /checkinActivity:
     get:
       description: Get CheckinActivity from  data in Db.
@@ -620,7 +695,7 @@ paths:
             type: array
       summary: get ClassesOfferedAndAttendees
       tags:
-      - analytics
+      - enrolmentanalytics
   /classesOfferedAndAttendesPerWeek:
     get:
       description: get ClassesOfferedAndAttendees data in Db.
@@ -640,7 +715,7 @@ paths:
             type: array
       summary: get ClassesOfferedAndAttendees
       tags:
-      - analytics
+      - enrolmentanalytics
   /device:
     get:
       description: Get Device data from Db.
@@ -735,6 +810,21 @@ paths:
       summary: Create CheckinActivity
       tags:
       - userActivity
+  /hoursSpentInGymByDay:
+    get:
+      description: get ClassesOfferedAndAttendees data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetHoursSpentInGymByDayRow'
+            type: array
+      summary: get ClassesOfferedAndAttendees
+      tags:
+      - clubusageanalytics
   /location:
     get:
       description: Get User data from Db.
@@ -806,7 +896,7 @@ paths:
             type: array
       summary: get MostPopularHourForClassesOnWeekdays
       tags:
-      - analytics
+      - enrolmentanalytics
   /mostPopularHourForClassesOnWeekends:
     get:
       description: get MostPopularHourForClassesOnWeekends data in Db.
@@ -821,7 +911,7 @@ paths:
             type: array
       summary: get MostPopularHourForClassesOnWeekends
       tags:
-      - analytics
+      - enrolmentAnalytics
   /startActivity:
     post:
       description: Create CheckinActivity data in Db.

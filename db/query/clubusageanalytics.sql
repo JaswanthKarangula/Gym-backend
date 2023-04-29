@@ -1,14 +1,10 @@
 
 -- name: GetHoursSpentInGymByDay :many
-SELECT
-    DATE_TRUNC('day', ci.checkin) AS day,
-    SUM(EXTRACT(EPOCH FROM (ci.checkout - ci.checkin))/3600) AS hours_spent
-FROM
-    checkinactivity ci
-GROUP BY
-    day
-ORDER BY
-    day;
+SELECT DATE_TRUNC('day', ci.checkin) AS day,
+SUM(EXTRACT(EPOCH FROM (ci.checkout - ci.checkin))/3600) AS hours_spent
+FROM checkinactivity ci
+GROUP BY day
+ORDER BY day;
 
 -- name: GetBusiestTimeByHourAndDayOfWeek :many
 SELECT

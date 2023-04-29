@@ -22,7 +22,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "analytics"
+                    "enrolmentanalytics"
                 ],
                 "summary": "get AllClassesOfferedAndAttendees",
                 "responses": {
@@ -45,7 +45,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "analytics"
+                    "enrolmentanalytics"
                 ],
                 "summary": "get AllClassesOfferedAndAttendeesPerWeek",
                 "responses": {
@@ -68,7 +68,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "analytics"
+                    "enrolmentanalytics"
                 ],
                 "summary": "get AllTopAttendedClass",
                 "responses": {
@@ -101,6 +101,75 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/db.Location"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/averageVisitorsPerHourWeekdays": {
+            "get": {
+                "description": "get AverageVisitorsPerHourWeekdays data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clubusageanalytics"
+                ],
+                "summary": "get AverageVisitorsPerHourWeekdays",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetAverageVisitorsPerHourWeekdaysRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/averageVisitorsPerHourWeekends": {
+            "get": {
+                "description": "get AverageVisitorsPerHourWeekends data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clubusageanalytics"
+                ],
+                "summary": "get AverageVisitorsPerHourWeekends",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetAverageVisitorsPerHourWeekendsRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/busiestTimeByHourAndDayOfWeek": {
+            "get": {
+                "description": "get BusiestTimeByHourAndDayOfWeek data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clubusageanalytics"
+                ],
+                "summary": "get BusiestTimeByHourAndDayOfWeek",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetBusiestTimeByHourAndDayOfWeekRow"
                             }
                         }
                     }
@@ -353,7 +422,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "analytics"
+                    "enrolmentanalytics"
                 ],
                 "summary": "get ClassesOfferedAndAttendees",
                 "parameters": [
@@ -384,7 +453,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "analytics"
+                    "enrolmentanalytics"
                 ],
                 "summary": "get ClassesOfferedAndAttendees",
                 "parameters": [
@@ -553,6 +622,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/hoursSpentInGymByDay": {
+            "get": {
+                "description": "get ClassesOfferedAndAttendees data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clubusageanalytics"
+                ],
+                "summary": "get ClassesOfferedAndAttendees",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetHoursSpentInGymByDayRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/location": {
             "get": {
                 "description": "Get User data from Db.",
@@ -648,7 +740,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "analytics"
+                    "enrolmentanalytics"
                 ],
                 "summary": "get MostPopularHourForClassesOnWeekdays",
                 "responses": {
@@ -671,7 +763,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "analytics"
+                    "enrolmentAnalytics"
                 ],
                 "summary": "get MostPopularHourForClassesOnWeekends",
                 "responses": {
@@ -1365,6 +1457,42 @@ const docTemplate = `{
                 }
             }
         },
+        "db.GetAverageVisitorsPerHourWeekdaysRow": {
+            "type": "object",
+            "properties": {
+                "avg_visitors": {
+                    "type": "integer"
+                },
+                "hour": {
+                    "type": "number"
+                }
+            }
+        },
+        "db.GetAverageVisitorsPerHourWeekendsRow": {
+            "type": "object",
+            "properties": {
+                "avg_visitors": {
+                    "type": "integer"
+                },
+                "hour": {
+                    "type": "number"
+                }
+            }
+        },
+        "db.GetBusiestTimeByHourAndDayOfWeekRow": {
+            "type": "object",
+            "properties": {
+                "day_of_week": {
+                    "type": "number"
+                },
+                "hour": {
+                    "type": "number"
+                },
+                "visits": {
+                    "type": "integer"
+                }
+            }
+        },
         "db.GetClassesOfferedAndAttendeesPerWeekRow": {
             "type": "object",
             "properties": {
@@ -1390,6 +1518,17 @@ const docTemplate = `{
                 },
                 "day": {
                     "type": "string"
+                }
+            }
+        },
+        "db.GetHoursSpentInGymByDayRow": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "string"
+                },
+                "hours_spent": {
+                    "type": "integer"
                 }
             }
         },
