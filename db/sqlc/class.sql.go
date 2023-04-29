@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createClass = `-- name: CreateClass :one
@@ -23,7 +22,7 @@ VALUES
 
 type CreateClassParams struct {
 	Instructorname string         `json:"instructorname"`
-	Name           sql.NullString `json:"name"`
+	Name           string `json:"name"`
 	Cost           int32          `json:"cost"`
 	Scheduleid     int64          `json:"scheduleid"`
 }

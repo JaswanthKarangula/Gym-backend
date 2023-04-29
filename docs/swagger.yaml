@@ -182,6 +182,7 @@ definitions:
         type: string
     required:
     - email
+    - istrail
     - membership
     - password
     - username
@@ -308,6 +309,65 @@ definitions:
       username:
         type: string
     type: object
+  db.GetAllClassesOfferedAndAttendeesPerWeekRow:
+    properties:
+      attendees:
+        type: integer
+      classes_offered:
+        type: integer
+      date_trunc:
+        type: string
+    type: object
+  db.GetAllClassesOfferedAndAttendeesRow:
+    properties:
+      attendees:
+        type: integer
+      classes_offered:
+        type: integer
+      day:
+        type: string
+    type: object
+  db.GetAllTopAttendedClassRow:
+    properties:
+      attendees:
+        type: integer
+      class_id:
+        type: integer
+      class_name:
+        type: string
+    type: object
+  db.GetClassesOfferedAndAttendeesPerWeekRow:
+    properties:
+      attendees:
+        type: integer
+      classes_offered:
+        type: integer
+      date_trunc:
+        type: string
+    type: object
+  db.GetClassesOfferedAndAttendeesRow:
+    properties:
+      attendees:
+        type: integer
+      classes_offered:
+        type: integer
+      day:
+        type: string
+    type: object
+  db.GetMostPopularHourForClassesOnWeekdaysRow:
+    properties:
+      attendees:
+        type: integer
+      date_part:
+        type: number
+    type: object
+  db.GetMostPopularHourForClassesOnWeekendsRow:
+    properties:
+      attendees:
+        type: integer
+      date_part:
+        type: number
+    type: object
   db.Location:
     properties:
       city:
@@ -326,6 +386,51 @@ info:
   title: Gym-backend API
   version: "1.0"
 paths:
+  /allClassesOfferedAndAttendes:
+    get:
+      description: get AllClassesOfferedAndAttendees data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetAllClassesOfferedAndAttendeesRow'
+            type: array
+      summary: get AllClassesOfferedAndAttendees
+      tags:
+      - analytics
+  /allClassesOfferedAndAttendesPerWeek:
+    get:
+      description: get AllClassesOfferedAndAttendeesPerWeek data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetAllClassesOfferedAndAttendeesPerWeekRow'
+            type: array
+      summary: get AllClassesOfferedAndAttendeesPerWeek
+      tags:
+      - analytics
+  /allTopAttendedClass:
+    get:
+      description: get AllTopAttendedClass data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetAllTopAttendedClassRow'
+            type: array
+      summary: get AllTopAttendedClass
+      tags:
+      - analytics
   /alllocations:
     get:
       description: Get ALL locations data from Db.
@@ -496,6 +601,46 @@ paths:
       summary: Create ClassCatalogue
       tags:
       - classCatalogue
+  /classesOfferedAndAttendes:
+    get:
+      description: get ClassesOfferedAndAttendees data in Db.
+      parameters:
+      - in: query
+        name: locationid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetClassesOfferedAndAttendeesRow'
+            type: array
+      summary: get ClassesOfferedAndAttendees
+      tags:
+      - analytics
+  /classesOfferedAndAttendesPerWeek:
+    get:
+      description: get ClassesOfferedAndAttendees data in Db.
+      parameters:
+      - in: query
+        name: locationid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetClassesOfferedAndAttendeesPerWeekRow'
+            type: array
+      summary: get ClassesOfferedAndAttendees
+      tags:
+      - analytics
   /device:
     get:
       description: Get Device data from Db.
@@ -647,6 +792,36 @@ paths:
       summary: Validate login Request
       tags:
       - auth
+  /mostPopularHourForClassesOnWeekdays:
+    get:
+      description: get MostPopularHourForClassesOnWeekdays data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetMostPopularHourForClassesOnWeekdaysRow'
+            type: array
+      summary: get MostPopularHourForClassesOnWeekdays
+      tags:
+      - analytics
+  /mostPopularHourForClassesOnWeekends:
+    get:
+      description: get MostPopularHourForClassesOnWeekends data in Db.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetMostPopularHourForClassesOnWeekendsRow'
+            type: array
+      summary: get MostPopularHourForClassesOnWeekends
+      tags:
+      - analytics
   /startActivity:
     post:
       description: Create CheckinActivity data in Db.

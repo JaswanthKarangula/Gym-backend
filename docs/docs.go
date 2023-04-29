@@ -15,6 +15,75 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/allClassesOfferedAndAttendes": {
+            "get": {
+                "description": "get AllClassesOfferedAndAttendees data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "get AllClassesOfferedAndAttendees",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetAllClassesOfferedAndAttendeesRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/allClassesOfferedAndAttendesPerWeek": {
+            "get": {
+                "description": "get AllClassesOfferedAndAttendeesPerWeek data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "get AllClassesOfferedAndAttendeesPerWeek",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetAllClassesOfferedAndAttendeesPerWeekRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/allTopAttendedClass": {
+            "get": {
+                "description": "get AllTopAttendedClass data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "get AllTopAttendedClass",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetAllTopAttendedClassRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/alllocations": {
             "get": {
                 "description": "Get ALL locations data from Db.",
@@ -277,6 +346,68 @@ const docTemplate = `{
                 }
             }
         },
+        "/classesOfferedAndAttendes": {
+            "get": {
+                "description": "get ClassesOfferedAndAttendees data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "get ClassesOfferedAndAttendees",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "locationid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetClassesOfferedAndAttendeesRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/classesOfferedAndAttendesPerWeek": {
+            "get": {
+                "description": "get ClassesOfferedAndAttendees data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "get ClassesOfferedAndAttendees",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "locationid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetClassesOfferedAndAttendeesPerWeekRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/device": {
             "get": {
                 "description": "Get Device data from Db.",
@@ -505,6 +636,52 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/api.loginResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mostPopularHourForClassesOnWeekdays": {
+            "get": {
+                "description": "get MostPopularHourForClassesOnWeekdays data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "get MostPopularHourForClassesOnWeekdays",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetMostPopularHourForClassesOnWeekdaysRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/mostPopularHourForClassesOnWeekends": {
+            "get": {
+                "description": "get MostPopularHourForClassesOnWeekends data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "get MostPopularHourForClassesOnWeekends",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetMostPopularHourForClassesOnWeekendsRow"
+                            }
                         }
                     }
                 }
@@ -940,6 +1117,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
+                "istrail",
                 "membership",
                 "password",
                 "username"
@@ -1142,6 +1320,98 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "db.GetAllClassesOfferedAndAttendeesPerWeekRow": {
+            "type": "object",
+            "properties": {
+                "attendees": {
+                    "type": "integer"
+                },
+                "classes_offered": {
+                    "type": "integer"
+                },
+                "date_trunc": {
+                    "type": "string"
+                }
+            }
+        },
+        "db.GetAllClassesOfferedAndAttendeesRow": {
+            "type": "object",
+            "properties": {
+                "attendees": {
+                    "type": "integer"
+                },
+                "classes_offered": {
+                    "type": "integer"
+                },
+                "day": {
+                    "type": "string"
+                }
+            }
+        },
+        "db.GetAllTopAttendedClassRow": {
+            "type": "object",
+            "properties": {
+                "attendees": {
+                    "type": "integer"
+                },
+                "class_id": {
+                    "type": "integer"
+                },
+                "class_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "db.GetClassesOfferedAndAttendeesPerWeekRow": {
+            "type": "object",
+            "properties": {
+                "attendees": {
+                    "type": "integer"
+                },
+                "classes_offered": {
+                    "type": "integer"
+                },
+                "date_trunc": {
+                    "type": "string"
+                }
+            }
+        },
+        "db.GetClassesOfferedAndAttendeesRow": {
+            "type": "object",
+            "properties": {
+                "attendees": {
+                    "type": "integer"
+                },
+                "classes_offered": {
+                    "type": "integer"
+                },
+                "day": {
+                    "type": "string"
+                }
+            }
+        },
+        "db.GetMostPopularHourForClassesOnWeekdaysRow": {
+            "type": "object",
+            "properties": {
+                "attendees": {
+                    "type": "integer"
+                },
+                "date_part": {
+                    "type": "number"
+                }
+            }
+        },
+        "db.GetMostPopularHourForClassesOnWeekendsRow": {
+            "type": "object",
+            "properties": {
+                "attendees": {
+                    "type": "integer"
+                },
+                "date_part": {
+                    "type": "number"
                 }
             }
         },

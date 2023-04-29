@@ -96,6 +96,15 @@ func (server *Server) setupRouter() {
 
 	router.POST("/login", server.loginUser)
 
+	// analytics
+	router.GET("/classesOfferedAndAttendes", server.getClassesOfferedAndAttendees)
+	router.GET("/allClassesOfferedAndAttendes", server.getAllClassesOfferedAndAttendees)
+	router.GET("/allClassesOfferedAndAttendesPerWeek", server.getAllClassesOfferedAndAttendeesPerWeek)
+	router.GET("/allTopAttendedClass", server.getAllTopAttendedClass)
+	router.GET("/classesOfferedAndAttendesPerWeek", server.getClassesOfferedAndAttendeesPerWeek)
+
+	router.GET("/mostPopularHourForClassesOnWeekdays", server.getMostPopularHourForClassesOnWeekdays)
+	router.GET("/mostPopularHourForClassesOnWeekends", server.getMostPopularHourForClassesOnWeekends)
 	server.router = router
 }
 
