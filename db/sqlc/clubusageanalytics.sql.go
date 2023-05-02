@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"time"
 )
 
 const getAverageVisitorsPerHourWeekdays = `-- name: GetAverageVisitorsPerHourWeekdays :many
@@ -137,19 +136,15 @@ func (q *Queries) GetBusiestTimeByHourAndDayOfWeek(ctx context.Context) ([]GetBu
 }
 
 const getHoursSpentInGymByDay = `-- name: GetHoursSpentInGymByDay :many
-SELECT
-    DATE_TRUNC('day', ci.checkin) AS day,
-    SUM(EXTRACT(EPOCH FROM (ci.checkout - ci.checkin))/3600) AS hours_spent
-FROM
-    checkinactivity ci
-GROUP BY
-    day
-ORDER BY
-    day
+SELECT DATE_TRUNC('day', ci.checkin) AS day,
+SUM(EXTRACT(EPOCH FROM (ci.checkout - ci.checkin))/3600) AS hours_spent
+FROM checkinactivity ci
+GROUP BY day
+ORDER BY day
 `
 
 type GetHoursSpentInGymByDayRow struct {
-	Day        time.Time `json:"day"`
+	Day        int64 `json:"day"`
 	HoursSpent int64 `json:"hours_spent"`
 }
 

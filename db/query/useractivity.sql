@@ -9,6 +9,29 @@ VALUES
 SELECT * FROM useractivity
 WHERE userid = $1;
 
+-- name: GetPastWorkoutData :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL $2
+GROUP BY  d.description
+ORDER BY d.description;
+
+-- name: GetDayWiseActivity :many
+SELECT
+    DATE(ua.start) AS date,
+    SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS total_time_seconds
+FROM
+    useractivity ua
+WHERE
+    ua.userid = $1
+  AND EXTRACT(YEAR FROM ua.start) = EXTRACT(YEAR FROM NOW())
+GROUP BY
+    DATE(ua.start)
+ORDER BY
+    DATE(ua.start);
+
+
 -- -- name: UpdateUser :one
 -- UPDATE users
 -- SET

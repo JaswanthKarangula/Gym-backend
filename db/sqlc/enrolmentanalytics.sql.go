@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"time"
 )
 
 const getAllClassesOfferedAndAttendees = `-- name: GetAllClassesOfferedAndAttendees :many
@@ -70,7 +69,7 @@ ORDER BY
 `
 
 type GetAllClassesOfferedAndAttendeesPerWeekRow struct {
-	DateTrunc      time.Time `json:"date_trunc"`
+	DateTrunc      int64 `json:"date_trunc"`
 	ClassesOffered int64 `json:"classes_offered"`
 	Attendees      int64 `json:"attendees"`
 }
@@ -203,7 +202,7 @@ ORDER BY
 `
 
 type GetClassesOfferedAndAttendeesPerWeekRow struct {
-	DateTrunc      time.Time `json:"date_trunc"`
+	DateTrunc      int64 `json:"date_trunc"`
 	ClassesOffered int64 `json:"classes_offered"`
 	Attendees      int64 `json:"attendees"`
 }

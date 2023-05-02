@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"time"
 )
 
 const getDailyNewMemberEnrolments = `-- name: GetDailyNewMemberEnrolments :many
@@ -23,7 +22,7 @@ ORDER BY
 `
 
 type GetDailyNewMemberEnrolmentsRow struct {
-	Day        time.Time `json:"day"`
+	Day        int64 `json:"day"`
 	NewMembers int64 `json:"new_members"`
 }
 

@@ -1,0 +1,3 @@
+time in seconds  SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) change to float64 instead of int64
+
+

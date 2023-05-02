@@ -668,6 +668,74 @@ const docTemplate = `{
                 }
             }
         },
+        "/getDayWiseUserActivity": {
+            "get": {
+                "description": "Get Day Wise User Activity data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userActivity"
+                ],
+                "summary": "Get Day wise User Activity From ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "userid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.dailyUserActivityResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getPastWorkoutData": {
+            "get": {
+                "description": "Get User Activity data from Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userActivity"
+                ],
+                "summary": "Get User Activity From ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "interval",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "userid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetPastWorkoutDataRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/hoursSpentInGymByDay": {
             "get": {
                 "description": "get ClassesOfferedAndAttendees data in Db.",
@@ -1072,6 +1140,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.DailyActivity": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "number"
+                }
+            }
+        },
         "api.checkinActivityResponse": {
             "type": "object",
             "properties": {
@@ -1411,6 +1490,20 @@ const docTemplate = `{
                 }
             }
         },
+        "api.dailyUserActivityResponse": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.DailyActivity"
+                    }
+                },
+                "month": {
+                    "type": "integer"
+                }
+            }
+        },
         "api.deviceResponse": {
             "type": "object",
             "properties": {
@@ -1537,7 +1630,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "date_trunc": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -1626,7 +1719,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "date_trunc": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -1659,7 +1752,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "day": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "hours_spent": {
                     "type": "integer"
@@ -1710,6 +1803,17 @@ const docTemplate = `{
                 },
                 "date_part": {
                     "type": "number"
+                }
+            }
+        },
+        "db.GetPastWorkoutDataRow": {
+            "type": "object",
+            "properties": {
+                "devicetype": {
+                    "type": "string"
+                },
+                "totaltimeseconds": {
+                    "type": "integer"
                 }
             }
         },

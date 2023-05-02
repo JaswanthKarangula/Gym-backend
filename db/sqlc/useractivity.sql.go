@@ -45,6 +45,91 @@ func (q *Queries) CreateUserActivity(ctx context.Context, arg CreateUserActivity
 	return i, err
 }
 
+const getDayWiseActivity = `-- name: GetDayWiseActivity :many
+SELECT
+    DATE(ua.start) AS date,
+    SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS total_time_seconds
+FROM
+    useractivity ua
+WHERE
+    ua.userid = $1
+  AND EXTRACT(YEAR FROM ua.start) = EXTRACT(YEAR FROM NOW())
+GROUP BY
+    DATE(ua.start)
+ORDER BY
+    DATE(ua.start)
+`
+
+type GetDayWiseActivityRow struct {
+	Date             time.Time `json:"date"`
+	TotalTimeSeconds float64     `json:"total_time_seconds"`
+}
+
+func (q *Queries) GetDayWiseActivity(ctx context.Context, userid int64) ([]GetDayWiseActivityRow, error) {
+	rows, err := q.db.QueryContext(ctx, getDayWiseActivity, userid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetDayWiseActivityRow{}
+	for rows.Next() {
+		var i GetDayWiseActivityRow
+		if err := rows.Scan(&i.Date, &i.TotalTimeSeconds); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getPastWorkoutData = `-- name: GetPastWorkoutData :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL $2
+GROUP BY  d.description
+ORDER BY d.description
+`
+
+type GetPastWorkoutDataParams struct {
+	Userid  int64 `json:"userid"`
+	Column2 int64 `json:"column_2"`
+}
+
+type GetPastWorkoutDataRow struct {
+	Devicetype       string `json:"devicetype"`
+	Totaltimeseconds int64  `json:"totaltimeseconds"`
+}
+
+func (q *Queries) GetPastWorkoutData(ctx context.Context, arg GetPastWorkoutDataParams) ([]GetPastWorkoutDataRow, error) {
+	rows, err := q.db.QueryContext(ctx, getPastWorkoutData, arg.Userid, arg.Column2)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetPastWorkoutDataRow{}
+	for rows.Next() {
+		var i GetPastWorkoutDataRow
+		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getUserActivity = `-- name: GetUserActivity :many
 SELECT id, start, "end", userid, deviceid, locationid FROM useractivity
 WHERE userid = $1
