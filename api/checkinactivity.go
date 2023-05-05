@@ -58,6 +58,7 @@ func newCheckinActivityResponse(activity db.Checkinactivity) checkinActivityResp
 // @Success 		200 {object} string
 // @Router			/checkinRecord [post]
 func (server *Server) createCheckinRecord(ctx *gin.Context) {
+
 	var req createCheckinRecordRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))

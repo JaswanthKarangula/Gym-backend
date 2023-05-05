@@ -110,22 +110,32 @@ github.com/spf13/viper
 
 ## Deploying
 
+Multi stage dockerfile 
 
-docker rm simplebank
-docker build -t simplebank:latest .    
-docker run --name simplebank -p 8080:8080 simplebank:latest
+docker rm gymbackend
+docker rmi gymbackend
 
-docker network create bank-network
-docker network conect bank-network postgres
-docker network inspect bank-network
+docker build -t gymbackend:latest .    
+docker run --name gymbackend -p 8080:8080 gymbackend:latest
+docker run --name gymbackend -p 8080:8080 gymbackend:latest
+
+docker container inspect postgres
+docker container inspect gymbackend
+
+
+docker network inspect bridge
+
+docker network create gym-network
+docker network connect gym-network postgres
+docker network inspect gym-network
 docker container inspect postgres
 
-
-docker run --name simplebank --network bank-network -p 8080:8080 -e DB_SOURCE="postgresql://root:secret@postgres:5432/simple_bank?sslmode=disable" simplebank:latest
+docker run --name gymbackend --network bank-network -p 8080:8080 -e DB_SOURCE="postgresql://root:secret@postgres:5432/simple_bank?sslmode=disable" gymbackend:latest
 
 
 docker compose up
 docker compose down
+docker rmi gym-backend_api
 
 
 chmod +x start.sh
