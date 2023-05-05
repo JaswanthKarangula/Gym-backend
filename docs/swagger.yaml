@@ -1004,6 +1004,24 @@ paths:
       summary: Get Day wise User Activity From ID
       tags:
       - userActivity
+  /getOverallAnalytics:
+    get:
+      description: get ClassRevenueGenerateByLocation data in Db.
+      parameters:
+      - in: query
+        name: type
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get ClassRevenueGenerateByLocation
+      tags:
+      - overallanalytics
   /getPastWorkoutData1:
     get:
       description: Get User Activity data from Db.

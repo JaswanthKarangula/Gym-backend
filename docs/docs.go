@@ -779,6 +779,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/getOverallAnalytics": {
+            "get": {
+                "description": "get ClassRevenueGenerateByLocation data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "overallanalytics"
+                ],
+                "summary": "get ClassRevenueGenerateByLocation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/getPastWorkoutData1": {
             "get": {
                 "description": "Get User Activity data from Db.",
