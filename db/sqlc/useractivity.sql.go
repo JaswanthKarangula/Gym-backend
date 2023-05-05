@@ -88,34 +88,177 @@ func (q *Queries) GetDayWiseActivity(ctx context.Context, userid int64) ([]GetDa
 	return items, nil
 }
 
-const getPastWorkoutData = `-- name: GetPastWorkoutData :many
+const getPastWorkoutData1 = `-- name: GetPastWorkoutData1 :many
 SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
 FROM useractivity ua
          JOIN device d ON ua.deviceid = d.id
-WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL $2
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '1 days'
 GROUP BY  d.description
 ORDER BY d.description
 `
 
-type GetPastWorkoutDataParams struct {
-	Userid  int64 `json:"userid"`
-	Column2 string `json:"column_2"`
-}
-
-type GetPastWorkoutDataRow struct {
+type GetPastWorkoutData1Row struct {
 	Devicetype       string `json:"devicetype"`
-	Totaltimeseconds float64  `json:"totaltimeseconds"`
+	Totaltimeseconds int64  `json:"totaltimeseconds"`
 }
 
-func (q *Queries) GetPastWorkoutData(ctx context.Context, arg GetPastWorkoutDataParams) ([]GetPastWorkoutDataRow, error) {
-	rows, err := q.db.QueryContext(ctx, getPastWorkoutData, arg.Userid,"'90 days'")
+func (q *Queries) GetPastWorkoutData1(ctx context.Context, userid int64) ([]GetPastWorkoutData1Row, error) {
+	rows, err := q.db.QueryContext(ctx, getPastWorkoutData1, userid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetPastWorkoutDataRow{}
+	items := []GetPastWorkoutData1Row{}
 	for rows.Next() {
-		var i GetPastWorkoutDataRow
+		var i GetPastWorkoutData1Row
+		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getPastWorkoutData30 = `-- name: GetPastWorkoutData30 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '30 days'
+GROUP BY  d.description
+ORDER BY d.description
+`
+
+type GetPastWorkoutData30Row struct {
+	Devicetype       string `json:"devicetype"`
+	Totaltimeseconds int64  `json:"totaltimeseconds"`
+}
+
+func (q *Queries) GetPastWorkoutData30(ctx context.Context, userid int64) ([]GetPastWorkoutData30Row, error) {
+	rows, err := q.db.QueryContext(ctx, getPastWorkoutData30, userid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetPastWorkoutData30Row{}
+	for rows.Next() {
+		var i GetPastWorkoutData30Row
+		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getPastWorkoutData60 = `-- name: GetPastWorkoutData60 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '60 days'
+GROUP BY  d.description
+ORDER BY d.description
+`
+
+type GetPastWorkoutData60Row struct {
+	Devicetype       string `json:"devicetype"`
+	Totaltimeseconds int64  `json:"totaltimeseconds"`
+}
+
+func (q *Queries) GetPastWorkoutData60(ctx context.Context, userid int64) ([]GetPastWorkoutData60Row, error) {
+	rows, err := q.db.QueryContext(ctx, getPastWorkoutData60, userid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetPastWorkoutData60Row{}
+	for rows.Next() {
+		var i GetPastWorkoutData60Row
+		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getPastWorkoutData7 = `-- name: GetPastWorkoutData7 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '7 days'
+GROUP BY  d.description
+ORDER BY d.description
+`
+
+type GetPastWorkoutData7Row struct {
+	Devicetype       string `json:"devicetype"`
+	Totaltimeseconds int64  `json:"totaltimeseconds"`
+}
+
+func (q *Queries) GetPastWorkoutData7(ctx context.Context, userid int64) ([]GetPastWorkoutData7Row, error) {
+	rows, err := q.db.QueryContext(ctx, getPastWorkoutData7, userid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetPastWorkoutData7Row{}
+	for rows.Next() {
+		var i GetPastWorkoutData7Row
+		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getPastWorkoutData90 = `-- name: GetPastWorkoutData90 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '90 days'
+GROUP BY  d.description
+ORDER BY d.description
+`
+
+type GetPastWorkoutData90Row struct {
+	Devicetype       string `json:"devicetype"`
+	Totaltimeseconds int64  `json:"totaltimeseconds"`
+}
+
+func (q *Queries) GetPastWorkoutData90(ctx context.Context, userid int64) ([]GetPastWorkoutData90Row, error) {
+	rows, err := q.db.QueryContext(ctx, getPastWorkoutData90, userid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetPastWorkoutData90Row{}
+	for rows.Next() {
+		var i GetPastWorkoutData90Row
 		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
 			return nil, err
 		}

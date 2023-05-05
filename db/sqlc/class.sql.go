@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"time"
 )
 
 const createClass = `-- name: CreateClass :one
@@ -84,4 +85,80 @@ func (q *Queries) GetClass(ctx context.Context, id int64) (Class, error) {
 		&i.Scheduleid,
 	)
 	return i, err
+}
+
+const getClasses = `-- name: GetClasses :many
+SELECT
+    c.id AS class_id,
+    c.name AS class_name,
+    c.instructorname,
+    c.cost,
+    s.startdate,
+    s.enddate,
+    s.starttime,
+    s.endtime,
+    CASE
+        WHEN cc.id IS NULL THEN 'Not Enrolled'
+        ELSE 'Enrolled'
+        END AS enrollment_status
+FROM
+    class c
+        JOIN schedule s ON c.scheduleid = s.id
+        LEFT JOIN classcatalogue cc ON c.id = cc.courseid AND cc.userid = $1
+WHERE
+        s.locationid = $2
+  AND s.day = $3
+ORDER BY
+    s.starttime
+`
+
+type GetClassesParams struct {
+	Userid     int64  `json:"userid"`
+	Locationid int64  `json:"locationid"`
+	Day        string `json:"day"`
+}
+
+type GetClassesRow struct {
+	ClassID          int64          `json:"class_id"`
+	ClassName        string `json:"class_name"`
+	Instructorname   string         `json:"instructorname"`
+	Cost             int32          `json:"cost"`
+	Startdate        time.Time      `json:"startdate"`
+	Enddate          time.Time      `json:"enddate"`
+	Starttime        time.Time      `json:"starttime"`
+	Endtime          time.Time      `json:"endtime"`
+	EnrollmentStatus interface{}    `json:"enrollment_status"`
+}
+
+func (q *Queries) GetClasses(ctx context.Context, arg GetClassesParams) ([]GetClassesRow, error) {
+	rows, err := q.db.QueryContext(ctx, getClasses, arg.Userid, arg.Locationid, arg.Day)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetClassesRow{}
+	for rows.Next() {
+		var i GetClassesRow
+		if err := rows.Scan(
+			&i.ClassID,
+			&i.ClassName,
+			&i.Instructorname,
+			&i.Cost,
+			&i.Startdate,
+			&i.Enddate,
+			&i.Starttime,
+			&i.Endtime,
+			&i.EnrollmentStatus,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }

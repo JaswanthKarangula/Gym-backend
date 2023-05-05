@@ -79,7 +79,7 @@ func (server *Server) setupRouter() {
 	router.POST("/device", server.createDevice)
 
 	router.GET("/getDayWiseUserActivity", server.getDayWiseUserActivity)
-	router.GET("/getPastWorkoutData", server.getPastWorkoutData)
+	router.GET("/getPastWorkoutData", server.getPastWorkoutData1)
 	router.GET("/userActivity", server.getUserActivity)
 	router.POST("/userActivity", server.createUserActivity)
 	router.POST("/startActivity", server.createStartActicityRecord)
@@ -92,6 +92,7 @@ func (server *Server) setupRouter() {
 
 	router.GET("/class", server.getClass)
 	router.POST("/class", server.createClass)
+	router.GET("/getClasses", server.getClasses)
 
 	router.GET("/classCatalogue", server.getClassCatalogue)
 	router.POST("/classCatalogue", server.createClassCatalogue)

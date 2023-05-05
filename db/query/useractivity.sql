@@ -9,11 +9,43 @@ VALUES
 SELECT * FROM useractivity
 WHERE userid = $1;
 
--- name: GetPastWorkoutData :many
+-- name: GetPastWorkoutData1 :many
 SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
 FROM useractivity ua
          JOIN device d ON ua.deviceid = d.id
-WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL $2
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '1 days'
+GROUP BY  d.description
+ORDER BY d.description;
+
+-- name: GetPastWorkoutData7 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '7 days'
+GROUP BY  d.description
+ORDER BY d.description;
+
+-- name: GetPastWorkoutData30 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '30 days'
+GROUP BY  d.description
+ORDER BY d.description;
+
+-- name: GetPastWorkoutData60 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '60 days'
+GROUP BY  d.description
+ORDER BY d.description;
+
+-- name: GetPastWorkoutData90 :many
+SELECT d.description AS devicetype, SUM(EXTRACT(EPOCH FROM (ua.end - ua.start))) AS totaltimeseconds
+FROM useractivity ua
+         JOIN device d ON ua.deviceid = d.id
+WHERE ua.userid = $1 AND ua.start >= NOW() - INTERVAL '90 days'
 GROUP BY  d.description
 ORDER BY d.description;
 

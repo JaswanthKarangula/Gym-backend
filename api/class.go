@@ -161,8 +161,9 @@ func (server *Server) getClass(ctx *gin.Context) {
 }
 
 type getClassRequest struct {
-	LocationId int64  `form:"locationid" binding:"required"`
+	Locationid int64  `form:"locationid" binding:"required"`
 	Day        string `form:"day" binding:"required"`
+	Userid     int64  `form:"userid" binding:"required"`
 }
 
 // CreateTags		godoc
@@ -171,10 +172,10 @@ type getClassRequest struct {
 // @Param 			class query getClassRequest true "get class"
 // @Produce 		application/json
 // @Tags 			class
-// @Success 		200 {object} userResponse{}
+// @Success 		200 {object} db.GetClassesRow{}
 // @Router			/getClasses [get]
 func (server *Server) getClasses(ctx *gin.Context) {
-	var req getClassFromIDRequest
+	var req getClassRequest
 
 	if err := ctx.ShouldBindQuery(&req); err != nil {
 		fmt.Println(req)
@@ -183,19 +184,16 @@ func (server *Server) getClasses(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-
-	class, err := server.store.GetClass(ctx, req.Classid)
+	arg := db.GetClassesParams{
+		Userid:     req.Userid,
+		Locationid: req.Locationid,
+		Day:        req.Day,
+	}
+	class, err := server.store.GetClasses(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
-	schedule, err := server.store.GetSchedule(ctx, class.Scheduleid)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
-		return
-	}
-
-	rsp := newClassResponse(class, schedule)
-	ctx.JSON(http.StatusOK, rsp)
+	ctx.JSON(http.StatusOK, class)
 }

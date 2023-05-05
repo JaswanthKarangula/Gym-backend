@@ -42,9 +42,16 @@ func newClassCatalogueResponse(catalogue db.Classcatalogue) classCatalogueRespon
 func (server *Server) createClassCatalogue(ctx *gin.Context) {
 	var req createClassCatalogueRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
+
+		fmt.Println(req)
+		fmt.Println("Failed")
+		fmt.Print(err)
+
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
+
+	fmt.Println(req)
 
 	//hashedPassword, err := util.HashPassword(req.Password)
 	//if err != nil {

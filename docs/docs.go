@@ -668,6 +668,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/getClasses": {
+            "get": {
+                "description": "get Class data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "class"
+                ],
+                "summary": "get Class",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "day",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "locationid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "userid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/db.GetClassesRow"
+                        }
+                    }
+                }
+            }
+        },
         "/getDayWiseUserActivity": {
             "get": {
                 "description": "Get Day Wise User Activity data from Db.",
@@ -699,7 +739,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/getPastWorkoutData": {
+        "/getPastWorkoutData1": {
             "get": {
                 "description": "Get User Activity data from Db.",
                 "produces": [
@@ -729,7 +769,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/db.GetPastWorkoutDataRow"
+                                "$ref": "#/definitions/db.GetPastWorkoutData1Row"
                             }
                         }
                     }
@@ -1737,6 +1777,36 @@ const docTemplate = `{
                 }
             }
         },
+        "db.GetClassesRow": {
+            "type": "object",
+            "properties": {
+                "class_id": {
+                    "type": "integer"
+                },
+                "class_name": {
+                    "type": "string"
+                },
+                "cost": {
+                    "type": "integer"
+                },
+                "enddate": {
+                    "type": "string"
+                },
+                "endtime": {
+                    "type": "string"
+                },
+                "enrollment_status": {},
+                "instructorname": {
+                    "type": "string"
+                },
+                "startdate": {
+                    "type": "string"
+                },
+                "starttime": {
+                    "type": "string"
+                }
+            }
+        },
         "db.GetDailyNewMemberEnrolmentsRow": {
             "type": "object",
             "properties": {
@@ -1806,14 +1876,14 @@ const docTemplate = `{
                 }
             }
         },
-        "db.GetPastWorkoutDataRow": {
+        "db.GetPastWorkoutData1Row": {
             "type": "object",
             "properties": {
                 "devicetype": {
                     "type": "string"
                 },
                 "totaltimeseconds": {
-                    "type": "number"
+                    "type": "integer"
                 }
             }
         },

@@ -11,10 +11,10 @@ import (
 )
 
 type createUserActivityRequest struct {
-	Start    time.Time `json:"start" binding:"required"`
-	End      time.Time `json:"end" binding:"required"`
-	Userid   int64     `json:"userid" binding:"required"`
-	Deviceid int64     `json:"deviceid" binding:"required"`
+	Start    string `json:"start" binding:"required"`
+	End      string `json:"end" binding:"required"`
+	Userid   int64  `json:"userid" binding:"required"`
+	Deviceid int64  `json:"deviceid" binding:"required"`
 }
 
 type getUserActivityRequest struct {
@@ -149,6 +149,11 @@ func (server *Server) createEndActivityRecord(ctx *gin.Context) {
 func (server *Server) createUserActivity(ctx *gin.Context) {
 	var req createUserActivityRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
+
+		fmt.Println(req)
+		fmt.Println("Failed")
+		fmt.Print(err)
+
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
@@ -160,11 +165,13 @@ func (server *Server) createUserActivity(ctx *gin.Context) {
 	//}
 
 	arg := db.CreateUserActivityParams{
-		Start:    req.Start,
-		End:      req.End,
+		Start:    service.GetFormatedTime(req.Start),
+		End:      service.GetFormatedTime(req.End),
 		Userid:   req.Userid,
 		Deviceid: req.Deviceid,
 	}
+
+	fmt.Println(arg)
 
 	activity, err := server.store.CreateUserActivity(ctx, arg)
 	if err != nil {
@@ -218,9 +225,9 @@ func (server *Server) getUserActivity(ctx *gin.Context) {
 // @Param 			users query getPastWorkOutActivityRequest true "Get user"
 // @Produce 		application/json
 // @Tags 			userActivity
-// @Success 		200 {object} []db.GetPastWorkoutDataRow{}
-// @Router			/getPastWorkoutData [get]
-func (server *Server) getPastWorkoutData(ctx *gin.Context) {
+// @Success 		200 {object} []db.GetPastWorkoutData1Row{}
+// @Router			/getPastWorkoutData1 [get]
+func (server *Server) getPastWorkoutData1(ctx *gin.Context) {
 	var req getPastWorkOutActivityRequest
 
 	if err := ctx.ShouldBindQuery(&req); err != nil {
@@ -231,13 +238,7 @@ func (server *Server) getPastWorkoutData(ctx *gin.Context) {
 		return
 	}
 
-	args := db.GetPastWorkoutDataParams{
-		Userid:  req.Userid,
-		Column2: "90",
-	}
-	fmt.Println(args.Column2)
-
-	activity, err := server.store.GetPastWorkoutData(ctx, args)
+	activity, err := server.store.GetPastWorkoutData1(ctx, req.Userid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
