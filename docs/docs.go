@@ -1303,7 +1303,7 @@ const docTemplate = `{
                 "employeeid",
                 "locationid",
                 "type",
-                "userid"
+                "useremail"
             ],
             "properties": {
                 "employeeid": {
@@ -1315,8 +1315,8 @@ const docTemplate = `{
                 "type": {
                     "type": "integer"
                 },
-                "userid": {
-                    "type": "integer"
+                "useremail": {
+                    "type": "string"
                 }
             }
         },

@@ -28,6 +28,10 @@ type getUserFromIDRequest struct {
 	UserId int64 `form:"userid" binding:"required"`
 }
 
+type getUserFromEmailRequest struct {
+	UserId int64 `form:"userid" binding:"required"`
+}
+
 type getUserFromNameRequest struct {
 	Username string `form:"username" binding:"required"`
 }

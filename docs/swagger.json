@@ -1296,7 +1296,7 @@
                 "employeeid",
                 "locationid",
                 "type",
-                "userid"
+                "useremail"
             ],
             "properties": {
                 "employeeid": {
@@ -1308,8 +1308,8 @@
                 "type": {
                     "type": "integer"
                 },
-                "userid": {
-                    "type": "integer"
+                "useremail": {
+                    "type": "string"
                 }
             }
         },

@@ -34,6 +34,23 @@ func CreateCheckOutRecord(ctx *gin.Context, store db.Store, arg db.CreateCheckin
 
 }
 
+func CreateCheckInRecord(ctx *gin.Context, store db.Store, arg db.CreateCheckinRecordsParams) (db.Checkinrecord, error) {
+	previous, err := GetPreviousRecord(ctx, store, arg.Userid)
+	if err != nil {
+		return db.Checkinrecord{}, err
+	}
+	if previous.Type == 1 {
+		return db.Checkinrecord{}, errors.New("Already Checkdin")
+	}
+	current, err := store.CreateCheckinRecords(ctx, arg)
+	if err != nil {
+		return db.Checkinrecord{}, err
+	}
+
+	return current, nil
+
+}
+
 func CreateCheckinActivity(ctx *gin.Context, store db.Store, checkin db.Checkinrecord, checkout db.Checkinrecord) (db.Checkinactivity, error) {
 	arg := db.CreateCheckinActivityParams{
 		Checkin:    checkin.Time,

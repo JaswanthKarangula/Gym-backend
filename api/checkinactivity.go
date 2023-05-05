@@ -19,10 +19,10 @@ type createCheckinActivityRequest struct {
 }
 
 type createCheckinRecordRequest struct {
-	Type       int32 `json:"type" binding:"required"`
-	Userid     int64 `json:"userid" binding:"required"`
-	Employeeid int64 `json:"employeeid" binding:"required"`
-	Locationid int64 `json:"locationid" binding:"required"`
+	Type       int32  `json:"type" binding:"required"`
+	Useremail  string `json:"useremail" binding:"required"`
+	Employeeid int64  `json:"employeeid" binding:"required"`
+	Locationid int64  `json:"locationid" binding:"required"`
 }
 
 type getCheckinActivityRequest struct {
@@ -64,14 +64,28 @@ func (server *Server) createCheckinRecord(ctx *gin.Context) {
 		return
 	}
 
+	user, err := server.store.GetUserFromEmail(ctx, req.Useremail)
+
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	arg := db.CreateCheckinRecordsParams{
-		Userid:     req.Userid,
+		Userid:     user.ID,
 		Type:       req.Type,
 		Employeeid: req.Employeeid,
 		Locationid: req.Locationid,
 	}
 
-	_, err := server.store.CreateCheckinRecords(ctx, arg)
+	_, err = service.CreateCheckInRecord(ctx, server.store, arg)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
@@ -102,8 +116,22 @@ func (server *Server) createCheckOutRecord(ctx *gin.Context) {
 		return
 	}
 
+	user, err := server.store.GetUserFromEmail(ctx, req.Useremail)
+
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	arg := db.CreateCheckinRecordsParams{
-		Userid:     req.Userid,
+		Userid:     user.ID,
 		Type:       req.Type,
 		Employeeid: req.Employeeid,
 		Locationid: req.Locationid,
