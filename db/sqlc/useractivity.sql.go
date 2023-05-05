@@ -99,16 +99,16 @@ ORDER BY d.description
 
 type GetPastWorkoutDataParams struct {
 	Userid  int64 `json:"userid"`
-	Column2 int64 `json:"column_2"`
+	Column2 string `json:"column_2"`
 }
 
 type GetPastWorkoutDataRow struct {
 	Devicetype       string `json:"devicetype"`
-	Totaltimeseconds int64  `json:"totaltimeseconds"`
+	Totaltimeseconds float64  `json:"totaltimeseconds"`
 }
 
 func (q *Queries) GetPastWorkoutData(ctx context.Context, arg GetPastWorkoutDataParams) ([]GetPastWorkoutDataRow, error) {
-	rows, err := q.db.QueryContext(ctx, getPastWorkoutData, arg.Userid, arg.Column2)
+	rows, err := q.db.QueryContext(ctx, getPastWorkoutData, arg.Userid,"'90 days'")
 	if err != nil {
 		return nil, err
 	}

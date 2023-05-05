@@ -711,7 +711,7 @@ const docTemplate = `{
                 "summary": "Get User Activity From ID",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "name": "interval",
                         "in": "query",
                         "required": true
@@ -1813,7 +1813,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "totaltimeseconds": {
-                    "type": "integer"
+                    "type": "number"
                 }
             }
         },

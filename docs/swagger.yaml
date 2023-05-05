@@ -449,7 +449,7 @@ definitions:
       devicetype:
         type: string
       totaltimeseconds:
-        type: integer
+        type: number
     type: object
   db.Location:
     properties:
@@ -920,7 +920,7 @@ paths:
       - in: query
         name: interval
         required: true
-        type: integer
+        type: string
       - in: query
         name: userid
         required: true

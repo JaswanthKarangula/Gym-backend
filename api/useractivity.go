@@ -22,8 +22,8 @@ type getUserActivityRequest struct {
 }
 
 type getPastWorkOutActivityRequest struct {
-	Userid   int64 `form:"userid" binding:"required"`
-	Interval int64 `form:"interval" binding:"required"`
+	Userid   int64  `form:"userid" binding:"required"`
+	Interval string `form:"interval" binding:"required"`
 }
 
 type createUserActivityRecordRequest struct {
@@ -233,8 +233,9 @@ func (server *Server) getPastWorkoutData(ctx *gin.Context) {
 
 	args := db.GetPastWorkoutDataParams{
 		Userid:  req.Userid,
-		Column2: req.Interval,
+		Column2: "90",
 	}
+	fmt.Println(args.Column2)
 
 	activity, err := server.store.GetPastWorkoutData(ctx, args)
 	if err != nil {
