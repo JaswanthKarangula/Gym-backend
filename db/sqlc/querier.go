@@ -36,6 +36,7 @@ type Querier interface {
 	GetClassEnrolment(ctx context.Context, courseid int64) ([]int64, error)
 	GetClassRevenueGenerateByLocation(ctx context.Context) ([]GetClassRevenueGenerateByLocationRow, error)
 	GetClasses(ctx context.Context, arg GetClassesParams) ([]GetClassesRow, error)
+	GetClassesForEmployee(ctx context.Context, arg GetClassesForEmployeeParams) ([]GetClassesForEmployeeRow, error)
 	GetClassesOfferedAndAttendees(ctx context.Context, locationid int64) ([]GetClassesOfferedAndAttendeesRow, error)
 	GetClassesOfferedAndAttendeesPerWeek(ctx context.Context, locationid int64) ([]GetClassesOfferedAndAttendeesPerWeekRow, error)
 	GetDailyNewMemberEnrolments(ctx context.Context) ([]GetDailyNewMemberEnrolmentsRow, error)

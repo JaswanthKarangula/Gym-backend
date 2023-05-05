@@ -162,3 +162,69 @@ func (q *Queries) GetClasses(ctx context.Context, arg GetClassesParams) ([]GetCl
 	}
 	return items, nil
 }
+
+const getClassesForEmployee = `-- name: GetClassesForEmployee :many
+SELECT
+    c.id AS class_id,
+    c.name AS class_name,
+    c.instructorname,
+    c.cost,
+    s.startdate,
+    s.enddate,
+    s.starttime,
+    s.endtime
+from class c
+         JOIN schedule s ON c.scheduleid = s.id
+WHERE
+        s.locationid = $2 AND s.day = $1
+ORDER BY
+    s.starttime
+`
+
+type GetClassesForEmployeeParams struct {
+	Day        string `json:"day"`
+	Locationid int64  `json:"locationid"`
+}
+
+type GetClassesForEmployeeRow struct {
+	ClassID        int64          `json:"class_id"`
+	ClassName      string `json:"class_name"`
+	Instructorname string         `json:"instructorname"`
+	Cost           int32          `json:"cost"`
+	Startdate      time.Time      `json:"startdate"`
+	Enddate        time.Time      `json:"enddate"`
+	Starttime      time.Time      `json:"starttime"`
+	Endtime        time.Time      `json:"endtime"`
+}
+
+func (q *Queries) GetClassesForEmployee(ctx context.Context, arg GetClassesForEmployeeParams) ([]GetClassesForEmployeeRow, error) {
+	rows, err := q.db.QueryContext(ctx, getClassesForEmployee, arg.Day, arg.Locationid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetClassesForEmployeeRow{}
+	for rows.Next() {
+		var i GetClassesForEmployeeRow
+		if err := rows.Scan(
+			&i.ClassID,
+			&i.ClassName,
+			&i.Instructorname,
+			&i.Cost,
+			&i.Startdate,
+			&i.Enddate,
+			&i.Starttime,
+			&i.Endtime,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

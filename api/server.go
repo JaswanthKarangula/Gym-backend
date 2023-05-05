@@ -93,6 +93,7 @@ func (server *Server) setupRouter() {
 	router.GET("/class", server.getClass)
 	router.POST("/class", server.createClass)
 	router.GET("/getClasses", server.getClasses)
+	router.GET("/getClassesForEmployee", server.getClassesForEmployee)
 
 	router.GET("/classCatalogue", server.getClassCatalogue)
 	router.POST("/classCatalogue", server.createClassCatalogue)

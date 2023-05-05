@@ -172,7 +172,7 @@ type getClassRequest struct {
 // @Param 			class query getClassRequest true "get class"
 // @Produce 		application/json
 // @Tags 			class
-// @Success 		200 {object} db.GetClassesRow{}
+// @Success 		200 {object} []db.GetClassesRow{}
 // @Router			/getClasses [get]
 func (server *Server) getClasses(ctx *gin.Context) {
 	var req getClassRequest
@@ -190,6 +190,43 @@ func (server *Server) getClasses(ctx *gin.Context) {
 		Day:        req.Day,
 	}
 	class, err := server.store.GetClasses(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, class)
+}
+
+type getClassForEmployeeRequest struct {
+	Day        string `form:"day" binding:"required"`
+	Locationid int64  `form:"locationid" binding:"required"`
+}
+
+// CreateTags		godoc
+// @Summary			get Class
+// @Description 	get Class data in Db.
+// @Param 			class query getClassForEmployeeRequest true "get class"
+// @Produce 		application/json
+// @Tags 			class
+// @Success 		200 {object} []db.GetClassesForEmployeeRow{}
+// @Router			/getClassesForEmployee [get]
+func (server *Server) getClassesForEmployee(ctx *gin.Context) {
+	var req getClassForEmployeeRequest
+
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		fmt.Println(req)
+		fmt.Println("Failed")
+		fmt.Print(err)
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	arg := db.GetClassesForEmployeeParams{
+		Locationid: req.Locationid,
+		Day:        req.Day,
+	}
+
+	class, err := server.store.GetClassesForEmployee(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return

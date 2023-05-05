@@ -42,6 +42,26 @@ ORDER BY
     s.starttime;
 
 
+-- name: GetClassesForEmployee :many
+SELECT
+    c.id AS class_id,
+    c.name AS class_name,
+    c.instructorname,
+    c.cost,
+    s.startdate,
+    s.enddate,
+    s.starttime,
+    s.endtime
+from class c
+         JOIN schedule s ON c.scheduleid = s.id
+WHERE
+        s.locationid = $2 AND s.day = $1
+ORDER BY
+    s.starttime;
+
+
+
+
 
 -- -- name: UpdateUser :one
 -- UPDATE users

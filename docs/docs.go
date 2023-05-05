@@ -702,7 +702,47 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/db.GetClassesRow"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetClassesRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getClassesForEmployee": {
+            "get": {
+                "description": "get Class data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "class"
+                ],
+                "summary": "get Class",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "day",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "locationid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetClassesForEmployeeRow"
+                            }
                         }
                     }
                 }
@@ -1746,6 +1786,35 @@ const docTemplate = `{
                 },
                 "revenue": {
                     "type": "integer"
+                }
+            }
+        },
+        "db.GetClassesForEmployeeRow": {
+            "type": "object",
+            "properties": {
+                "class_id": {
+                    "type": "integer"
+                },
+                "class_name": {
+                    "type": "string"
+                },
+                "cost": {
+                    "type": "integer"
+                },
+                "enddate": {
+                    "type": "string"
+                },
+                "endtime": {
+                    "type": "string"
+                },
+                "instructorname": {
+                    "type": "string"
+                },
+                "startdate": {
+                    "type": "string"
+                },
+                "starttime": {
+                    "type": "string"
                 }
             }
         },
