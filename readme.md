@@ -117,7 +117,7 @@ docker rmi gymbackend
 
 docker build -t gymbackend:latest .    
 docker run --name gymbackend -p 8080:8080 gymbackend:latest
-docker run --name gymbackend -p 8080:8080 gymbackend:latest
+docker run --name gymbackend -p 8080:8080 jaswanthk1/gym-backend:latest
 
 docker container inspect postgres
 docker container inspect gymbackend
