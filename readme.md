@@ -164,6 +164,12 @@ add annotations swagger in main function
 swag init
 add annotations to controller 
 
+## AWS Github Actions
+
+AWS IAM
+
+
+
 
 
 

@@ -7,7 +7,6 @@ services:
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=simple_bank
   api:
-    image: jaswanthk1/gym-backend:latest
     build:
       context: .
       dockerfile: Dockerfile
