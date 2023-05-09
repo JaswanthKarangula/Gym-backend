@@ -228,3 +228,71 @@ func (q *Queries) GetClassesForEmployee(ctx context.Context, arg GetClassesForEm
 	}
 	return items, nil
 }
+
+const getUpcomingClasses = `-- name: GetUpcomingClasses :many
+WITH class_dates AS (
+    SELECT
+        c.id AS class_id,
+        c.name AS class_name,
+        s.starttime,
+        s.endtime,
+        s.day,
+        GENERATE_SERIES(s.startdate, LEAST(s.enddate, NOW() + INTERVAL '7 days'), INTERVAL '1 day') AS class_date
+    FROM
+        classcatalogue cc
+            JOIN class c ON cc.courseid = c.id
+            JOIN schedule s ON c.scheduleid = s.id
+    WHERE
+            cc.userid = $1
+)
+SELECT
+    class_id,
+    class_name,
+    class_date,
+    starttime,
+    endtime
+FROM
+    class_dates c
+where
+        TRIM(BOTH FROM TO_CHAR(class_date, 'Day')) = c.day and
+    class_date BETWEEN NOW() AND NOW() + INTERVAL '7 days'
+ORDER BY
+    class_date, class_id
+`
+
+type GetUpcomingClassesRow struct {
+	ClassID   int64          `json:"class_id"`
+	ClassName string `json:"class_name"`
+	ClassDate time.Time          `json:"class_date"`
+	Starttime time.Time      `json:"starttime"`
+	Endtime   time.Time      `json:"endtime"`
+}
+
+func (q *Queries) GetUpcomingClasses(ctx context.Context, userid int64) ([]GetUpcomingClassesRow, error) {
+	rows, err := q.db.QueryContext(ctx, getUpcomingClasses, userid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetUpcomingClassesRow{}
+	for rows.Next() {
+		var i GetUpcomingClassesRow
+		if err := rows.Scan(
+			&i.ClassID,
+			&i.ClassName,
+			&i.ClassDate,
+			&i.Starttime,
+			&i.Endtime,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

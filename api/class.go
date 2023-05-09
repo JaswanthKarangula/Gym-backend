@@ -234,3 +234,35 @@ func (server *Server) getClassesForEmployee(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, class)
 }
+
+type getUpcomingClassesRequest struct {
+	Userid int64 `form:"userid" binding:"required"`
+}
+
+// CreateTags		godoc
+// @Summary			get Class
+// @Description 	get Class data in Db.
+// @Param 			class query getUpcomingClassesRequest true "get class"
+// @Produce 		application/json
+// @Tags 			class
+// @Success 		200 {object} []db.GetUpcomingClassesRow{}
+// @Router			/getUpcomingClasses [get]
+func (server *Server) getUpcomingClasses(ctx *gin.Context) {
+	var req getUpcomingClassesRequest
+
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		fmt.Println(req)
+		fmt.Println("Failed")
+		fmt.Print(err)
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	class, err := server.store.GetUpcomingClasses(ctx, req.Userid)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, class)
+}

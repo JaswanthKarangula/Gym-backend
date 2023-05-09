@@ -61,6 +61,38 @@ ORDER BY
 
 
 
+-- name: GetUpcomingClasses :many
+WITH class_dates AS (
+    SELECT
+        c.id AS class_id,
+        c.name AS class_name,
+        s.starttime,
+        s.endtime,
+        s.day,
+        GENERATE_SERIES(s.startdate, LEAST(s.enddate, NOW() + INTERVAL '7 days'), INTERVAL '1 day') AS class_date
+    FROM
+        classcatalogue cc
+            JOIN class c ON cc.courseid = c.id
+            JOIN schedule s ON c.scheduleid = s.id
+    WHERE
+            cc.userid = $1
+)
+SELECT
+    class_id,
+    class_name,
+    class_date,
+    starttime,
+    endtime
+FROM
+    class_dates c
+where
+        TRIM(BOTH FROM TO_CHAR(class_date, 'Day')) = c.day and
+    class_date BETWEEN NOW() AND NOW() + INTERVAL '7 days'
+ORDER BY
+    class_date, class_id;
+
+
+
 
 
 -- -- name: UpdateUser :one

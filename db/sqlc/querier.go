@@ -78,6 +78,7 @@ type Querier interface {
 	GetPreviousWeekMembershipsCount(ctx context.Context) (int64, error)
 	GetRevenueGenerateByMemberships(ctx context.Context) ([]int64, error)
 	GetSchedule(ctx context.Context, id int64) (Schedule, error)
+	GetUpcomingClasses(ctx context.Context, userid int64) ([]GetUpcomingClassesRow, error)
 	GetUser(ctx context.Context, name string) (User, error)
 	GetUserActivity(ctx context.Context, userid int64) ([]Useractivity, error)
 	GetUserClass(ctx context.Context, userid int64) ([]Classcatalogue, error)

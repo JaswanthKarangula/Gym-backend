@@ -844,6 +844,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/getUpcomingClasses": {
+            "get": {
+                "description": "get Class data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "class"
+                ],
+                "summary": "get Class",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "userid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.GetUpcomingClassesRow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/hoursSpentInGymByDay": {
             "get": {
                 "description": "get ClassesOfferedAndAttendees data in Db.",
@@ -1981,6 +2012,26 @@ const docTemplate = `{
                 },
                 "totaltimeseconds": {
                     "type": "integer"
+                }
+            }
+        },
+        "db.GetUpcomingClassesRow": {
+            "type": "object",
+            "properties": {
+                "class_date": {
+                    "type": "string"
+                },
+                "class_id": {
+                    "type": "integer"
+                },
+                "class_name": {
+                    "type": "string"
+                },
+                "endtime": {
+                    "type": "string"
+                },
+                "starttime": {
+                    "type": "string"
                 }
             }
         },

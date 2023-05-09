@@ -96,6 +96,7 @@ func (server *Server) setupRouter() {
 	router.POST("/class", server.createClass)
 	router.GET("/getClasses", server.getClasses)
 	router.GET("/getClassesForEmployee", server.getClassesForEmployee)
+	router.GET("/getUpcomingClasses", server.getUpcomingClasses)
 
 	router.GET("/classCatalogue", server.getClassCatalogue)
 	router.POST("/classCatalogue", server.createClassCatalogue)

@@ -490,6 +490,19 @@ definitions:
       totaltimeseconds:
         type: integer
     type: object
+  db.GetUpcomingClassesRow:
+    properties:
+      class_date:
+        type: string
+      class_id:
+        type: integer
+      class_name:
+        type: string
+      endtime:
+        type: string
+      starttime:
+        type: string
+    type: object
   db.Location:
     properties:
       city:
@@ -1046,6 +1059,26 @@ paths:
       summary: Get User Activity From ID
       tags:
       - userActivity
+  /getUpcomingClasses:
+    get:
+      description: get Class data in Db.
+      parameters:
+      - in: query
+        name: userid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetUpcomingClassesRow'
+            type: array
+      summary: get Class
+      tags:
+      - class
   /hoursSpentInGymByDay:
     get:
       description: get ClassesOfferedAndAttendees data in Db.
