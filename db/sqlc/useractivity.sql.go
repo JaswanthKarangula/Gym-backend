@@ -97,20 +97,20 @@ GROUP BY  d.description
 ORDER BY d.description
 `
 
-type GetPastWorkoutData1Row struct {
+type GetPastWorkoutDataRow struct {
 	Devicetype       string `json:"devicetype"`
-	Totaltimeseconds int64  `json:"totaltimeseconds"`
+	Totaltimeseconds float64  `json:"totaltimeseconds"`
 }
 
-func (q *Queries) GetPastWorkoutData1(ctx context.Context, userid int64) ([]GetPastWorkoutData1Row, error) {
+func (q *Queries) GetPastWorkoutData1(ctx context.Context, userid int64) ([]GetPastWorkoutDataRow, error) {
 	rows, err := q.db.QueryContext(ctx, getPastWorkoutData1, userid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetPastWorkoutData1Row{}
+	items := []GetPastWorkoutDataRow{}
 	for rows.Next() {
-		var i GetPastWorkoutData1Row
+		var i GetPastWorkoutDataRow
 		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
 			return nil, err
 		}
@@ -139,15 +139,15 @@ type GetPastWorkoutData30Row struct {
 	Totaltimeseconds int64  `json:"totaltimeseconds"`
 }
 
-func (q *Queries) GetPastWorkoutData30(ctx context.Context, userid int64) ([]GetPastWorkoutData30Row, error) {
+func (q *Queries) GetPastWorkoutData30(ctx context.Context, userid int64) ([]GetPastWorkoutDataRow, error) {
 	rows, err := q.db.QueryContext(ctx, getPastWorkoutData30, userid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetPastWorkoutData30Row{}
+	items := []GetPastWorkoutDataRow{}
 	for rows.Next() {
-		var i GetPastWorkoutData30Row
+		var i GetPastWorkoutDataRow
 		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
 			return nil, err
 		}
@@ -176,15 +176,15 @@ type GetPastWorkoutData60Row struct {
 	Totaltimeseconds int64  `json:"totaltimeseconds"`
 }
 
-func (q *Queries) GetPastWorkoutData60(ctx context.Context, userid int64) ([]GetPastWorkoutData60Row, error) {
+func (q *Queries) GetPastWorkoutData60(ctx context.Context, userid int64) ([]GetPastWorkoutDataRow, error) {
 	rows, err := q.db.QueryContext(ctx, getPastWorkoutData60, userid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetPastWorkoutData60Row{}
+	items := []GetPastWorkoutDataRow{}
 	for rows.Next() {
-		var i GetPastWorkoutData60Row
+		var i GetPastWorkoutDataRow
 		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
 			return nil, err
 		}
@@ -210,18 +210,18 @@ ORDER BY d.description
 
 type GetPastWorkoutData7Row struct {
 	Devicetype       string `json:"devicetype"`
-	Totaltimeseconds int64  `json:"totaltimeseconds"`
+	Totaltimeseconds float64  `json:"totaltimeseconds"`
 }
 
-func (q *Queries) GetPastWorkoutData7(ctx context.Context, userid int64) ([]GetPastWorkoutData7Row, error) {
+func (q *Queries) GetPastWorkoutData7(ctx context.Context, userid int64) ([]GetPastWorkoutDataRow, error) {
 	rows, err := q.db.QueryContext(ctx, getPastWorkoutData7, userid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetPastWorkoutData7Row{}
+	items := []GetPastWorkoutDataRow{}
 	for rows.Next() {
-		var i GetPastWorkoutData7Row
+		var i GetPastWorkoutDataRow
 		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
 			return nil, err
 		}
@@ -250,15 +250,15 @@ type GetPastWorkoutData90Row struct {
 	Totaltimeseconds int64  `json:"totaltimeseconds"`
 }
 
-func (q *Queries) GetPastWorkoutData90(ctx context.Context, userid int64) ([]GetPastWorkoutData90Row, error) {
+func (q *Queries) GetPastWorkoutData90(ctx context.Context, userid int64) ([]GetPastWorkoutDataRow, error) {
 	rows, err := q.db.QueryContext(ctx, getPastWorkoutData90, userid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetPastWorkoutData90Row{}
+	items := []GetPastWorkoutDataRow{}
 	for rows.Next() {
-		var i GetPastWorkoutData90Row
+		var i GetPastWorkoutDataRow
 		if err := rows.Scan(&i.Devicetype, &i.Totaltimeseconds); err != nil {
 			return nil, err
 		}

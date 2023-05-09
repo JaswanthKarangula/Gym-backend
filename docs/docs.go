@@ -807,7 +807,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/getPastWorkoutData1": {
+        "/getPastWorkoutData": {
             "get": {
                 "description": "Get User Activity data from Db.",
                 "produces": [
@@ -837,7 +837,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/db.GetPastWorkoutData1Row"
+                                "$ref": "#/definitions/db.GetPastWorkoutDataRow"
                             }
                         }
                     }
@@ -2004,14 +2004,14 @@ const docTemplate = `{
                 }
             }
         },
-        "db.GetPastWorkoutData1Row": {
+        "db.GetPastWorkoutDataRow": {
             "type": "object",
             "properties": {
                 "devicetype": {
                     "type": "string"
                 },
                 "totaltimeseconds": {
-                    "type": "integer"
+                    "type": "number"
                 }
             }
         },

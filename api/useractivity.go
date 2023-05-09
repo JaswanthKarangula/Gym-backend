@@ -3,6 +3,7 @@ package api
 import (
 	db "Gym-backend/db/sqlc"
 	"Gym-backend/service"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
@@ -225,9 +226,9 @@ func (server *Server) getUserActivity(ctx *gin.Context) {
 // @Param 			users query getPastWorkOutActivityRequest true "Get user"
 // @Produce 		application/json
 // @Tags 			userActivity
-// @Success 		200 {object} []db.GetPastWorkoutData1Row{}
-// @Router			/getPastWorkoutData1 [get]
-func (server *Server) getPastWorkoutData1(ctx *gin.Context) {
+// @Success 		200 {object} []db.GetPastWorkoutDataRow{}
+// @Router			/getPastWorkoutData [get]
+func (server *Server) getPastWorkoutData(ctx *gin.Context) {
 	var req getPastWorkOutActivityRequest
 
 	if err := ctx.ShouldBindQuery(&req); err != nil {
@@ -237,11 +238,50 @@ func (server *Server) getPastWorkoutData1(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
+	activity := []db.GetPastWorkoutDataRow{}
+	err := errors.New("Switch")
+	switch req.Interval {
+	case "1":
+		{
+			activity, err = server.store.GetPastWorkoutData1(ctx, req.Userid)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+				return
+			}
+		}
+	case "7":
+		{
+			activity, err = server.store.GetPastWorkoutData7(ctx, req.Userid)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+				return
+			}
+		}
+	case "30":
+		{
+			activity, err = server.store.GetPastWorkoutData30(ctx, req.Userid)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+				return
+			}
+		}
+	case "60":
+		{
+			activity, err = server.store.GetPastWorkoutData60(ctx, req.Userid)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+				return
+			}
+		}
+	case "90":
+		{
+			activity, err = server.store.GetPastWorkoutData90(ctx, req.Userid)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+				return
+			}
+		}
 
-	activity, err := server.store.GetPastWorkoutData1(ctx, req.Userid)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
-		return
 	}
 
 	//rsp := newUserActivityResponse(activity)

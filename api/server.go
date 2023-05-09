@@ -81,7 +81,7 @@ func (server *Server) setupRouter() {
 	router.GET("/getOverallAnalytics", server.getOverallAnalytics)
 
 	router.GET("/getDayWiseUserActivity", server.getDayWiseUserActivity)
-	router.GET("/getPastWorkoutData", server.getPastWorkoutData1)
+	router.GET("/getPastWorkoutData", server.getPastWorkoutData)
 	router.GET("/userActivity", server.getUserActivity)
 	router.POST("/userActivity", server.createUserActivity)
 	router.POST("/startActivity", server.createStartActicityRecord)
